@@ -1,5 +1,7 @@
 #include "../include/lilSoftRend.hpp"
 #include "../include/input.hpp"
+#include "GLFW/glfw3.h"
+
 
 #define W_WIDTH 800
 #define W_HEIGHT 600
@@ -9,7 +11,8 @@ int main() {
     return -1;
   }
 
-  GLFWwindow* window = glfwCreateWindow(W_WIDTH, W_HEIGHT, "I am window example", NULL, NULL);
+  GLFWwindow* window = lsr::window::CreateSimple(W_WIDTH, W_HEIGHT, "Window example");
+
   if (!window) {
     glfwTerminate();
     return -1;
@@ -19,7 +22,6 @@ int main() {
     glfwPollEvents();
 
     // do rendering things here
-
     glfwSwapBuffers(window);
   }
 

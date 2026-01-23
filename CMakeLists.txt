@@ -65,8 +65,10 @@ target_sources(lilSoftRend
       "include/input.hpp"
       "include/callbacks.hpp"
       "include/lilSoftRend.hpp"
+      "include/windowing.hpp"
   PRIVATE
     "src/core/input.cpp"
+    "src/core/windowing.cpp"
   )
   
 ### COMPILATION ###############################
