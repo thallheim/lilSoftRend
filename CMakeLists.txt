@@ -24,7 +24,7 @@ option(BUILD_CFG_PARSER "Build the internal (TOML-ish) config file parser"  OFF)
 # GLFW (windowing, events, input handling)
 ###############################################
 include(CheckIncludeFile)
-check_include_file("glfw3.h" OPTIONAL GLFW_SYS)
+check_include_file("GLFW/glfw3.h" OPTIONAL GLFW_SYS)
 
 set(VENDOR_DIR ${CMAKE_SOURCE_DIR}/vendor)
 set(GLFW_DIR ${VENDOR_DIR}/glfw)
