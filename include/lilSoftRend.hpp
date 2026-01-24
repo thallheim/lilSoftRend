@@ -10,9 +10,12 @@
 namespace lsr::renderer {
 
 struct Renderer {
-  Display* _display = NULL;
-  Window*  _window  = NULL;
-  Screen*  _screen  = NULL;
+  Display           *_display   = NULL;
+  xcb_connection_t  *_disp_conn = NULL;
+  Window            *_window    = NULL;
+  Screen            *_screen    = NULL;
+
+  Renderer() {}
 
   Renderer(Display *d, Window *w, Screen *s)
     : _display(d), _window(w), _screen(s)
@@ -21,7 +24,9 @@ struct Renderer {
   }
 
   bool Init();
-};
+
+  void Connect();
+  };
 
 
 } // NS lsr
