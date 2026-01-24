@@ -20,8 +20,8 @@ struct Renderer {
 
   }
 
+  bool Init();
 };
 
-  bool Init();
 
 } // NS lsr

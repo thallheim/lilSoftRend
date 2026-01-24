@@ -1,5 +1,5 @@
 #include <GLFW/glfw3.h>
-#include "../../include/input.hpp"
+#include "../include/input.hpp"
 
 void processInput(GLFWwindow* window)
 {

@@ -1,6 +1,6 @@
 #include "../include/lilSoftRend.hpp"
 
-bool lsr::renderer::Init() {
+bool lsr::renderer::Renderer::Init() {
 
   return false;
 }
