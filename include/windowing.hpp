@@ -1,17 +1,11 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
-
-#include "../include/callbacks.hpp"
-#include "../include/input.hpp"
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/keysymdef.h>
 
 namespace lsr::window {
 
-  GLFWwindow *CreateSimple(int width, int height, const char *title,
-                           bool dbuffered = GLFW_TRUE);
-
-  GLFWwindow *CreateSimple(int width, int height, int px, int py,
-                           const char *title,
-                           bool dbuffered = GLFW_TRUE);
+  Window* New(const char* title, int height, int width);
 
 } // NS lsr::windowing
