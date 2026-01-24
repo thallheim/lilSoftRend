@@ -19,6 +19,8 @@ find_program(GOT_GIT git
 option(BUILD_STATIC     "Statically link the library"                       OFF)
 option(BUILD_CFG_PARSER "Build the internal (TOML-ish) config file parser"  OFF)
 
+# x11/xcb
+find_package(X11 REQUIRED)
 
 ###############################################
 # GLFW (windowing, events, input handling)
@@ -82,6 +84,8 @@ target_compile_definitions(lilSoftRend PRIVATE
 target_link_libraries(lilSoftRend
   PRIVATE
   glfw
+  X11::X11
+  X11::xcb
   ${CMAKE_DL_LIBS} # Unnecessary on Win
 )
 
@@ -93,4 +97,6 @@ add_executable(example01 "examples/ex01.cpp")
 target_link_libraries(example01 PRIVATE
   lilSoftRend
   glfw
+  X11::X11
+  X11::xcb
 )
