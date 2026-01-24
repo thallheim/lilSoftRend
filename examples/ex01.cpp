@@ -15,12 +15,11 @@
 int main() {
   using namespace lsr::renderer;
 
+  // xcb_connection_t *connection = xcb_connect (NULL, NULL);
   Renderer r;
+  r._disp_conn = xcb_connect (NULL, NULL);
 
-  double start;
-
-  xcb_connection_t *connection = xcb_connect (NULL, NULL);
-
-
+  // xcb_disconnect(connection);
+  xcb_disconnect(r._disp_conn);
   return 0;
 }
