@@ -8,7 +8,7 @@
 
 
 #include <print>
-#include <vector>
+#include <map>
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
 #include <X11/Xlib.h>
@@ -23,8 +23,8 @@ int main() {
   int disp_id;
   r._disp_conn = xcb_connect (NULL, &disp_id);
 
-  std::vector<uint32_t> ids;
-  ids.emplace_back(xcb_generate_id(r._disp_conn));
+  std::map<std::string, uint32_t> ids;
+  ids.emplace("window", xcb_generate_id(r._disp_conn));
 
   xcb_disconnect(r._disp_conn);
 
