@@ -10,10 +10,37 @@
 
 #include <print>
 #include <map>
+#include <unordered_set>
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
 #include <X11/Xlib.h>
 
+
+enum class IdKind {
+  DISPLAY = 0,
+  WINDOW,
+  GCTX,
+};
+
+
+struct ID {
+  IdKind kind;
+  uint32_t id;
+
+  ID(IdKind k, uint32_t id) {
+    this->kind = k;
+    this->id = id;
+  }
+};
+
+void NewID(IdKind kind) {
+  switch (kind) {
+  case IdKind::DISPLAY:
+  case IdKind::WINDOW:
+  case IdKind::GCTX:
+    break;
+  }
+}
 
 int main() {
   using namespace lsr::renderer;
@@ -27,8 +54,8 @@ int main() {
   r._disp_conn = xcb_connect (NULL, &disp_id);
   xcb_window_t win = xcb_generate_id(r._disp_conn);
 
-  const xcb_setup_t     *setup = xcb_get_setup(r._disp_conn);
-  xcb_screen_iterator_t siter  = xcb_setup_roots_iterator(setup);
+  const xcb_setup_t     *setup  = xcb_get_setup(r._disp_conn);
+  xcb_screen_iterator_t siter   = xcb_setup_roots_iterator(setup);
   xcb_screen_t          *screen = siter.data;
 
   ids.emplace("window", win);
