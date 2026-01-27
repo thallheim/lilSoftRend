@@ -10,7 +10,8 @@
 
 #include <print>
 #include <map>
-#include <unordered_set>
+#include <unistd.h>
+#include <assert.h>
 #include <xcb/xcb.h>
 #include <xcb/xproto.h>
 #include <X11/Xlib.h>
@@ -22,7 +23,56 @@ enum class IdType {
   GCTX,
 };
 
-int main() {
+#define NIL (0)       // A name for the void pointer
+
+int main()
+{
+  // Open display
+  Display *dpy = XOpenDisplay(NIL);
+  assert(dpy);
+
+  // Get some colors
+  int blackColor = BlackPixel(dpy, DefaultScreen(dpy));
+  int whiteColor = WhitePixel(dpy, DefaultScreen(dpy));
+
+  // Create the window
+  Window win = XCreateSimpleWindow(dpy, DefaultRootWindow(dpy), 0, 0,
+                                 200, 100, 0, blackColor, blackColor);
+
+  // Select MapNotify events
+  XSelectInput(dpy, win, StructureNotifyMask);
+
+  // Map window
+  XMapWindow(dpy, win);
+
+  // Create graphics ctx
+  GC gc = XCreateGC(dpy, win, 0, NIL);
+
+  // Tell the GC we draw using the white color
+  XSetForeground(dpy, gc, whiteColor);
+
+  // Wait for the MapNotify event
+  for(;;) {
+    XEvent e;
+    XNextEvent(dpy, &e);
+    if (e.type == MapNotify)
+      break;
+  }
+
+  // Draw the line
+  XDrawLine(dpy, win, gc, 10, 60, 180, 20);
+
+  // Send the "DrawLine" request to the server
+  XFlush(dpy);
+
+  // Wait
+  pause();
+
+  return 0;
+}
+
+
+int main2() {
   using namespace lsr::renderer;
   using std::print;
   using std::println;
@@ -31,26 +81,26 @@ int main() {
   int disp_id;
   std::map<std::uint32_t, IdType> ids;
 
-  r._disp_conn = xcb_connect (NULL, &disp_id);
-  xcb_window_t   win = xcb_generate_id(r._disp_conn);
-  xcb_gcontext_t ctx = xcb_generate_id(r._disp_conn);
-  xcb_create_gc(r._disp_conn, ctx, win.);
+  r._disp_conn   = xcb_connect(NULL, &disp_id);
+  r._screen      = xcb_setup_roots_iterator(xcb_get_setup(r._disp_conn)).data;
+  xcb_drawable_t win = r._screen->root;
+  xcb_gcontext_t ctx_black = xcb_generate_id(r._disp_conn);
+  uint32_t mask = XCB_GC_FOREGROUND;
+  uint32_t values[] = { r._screen->black_pixel };
 
-  const xcb_setup_t     *setup  = xcb_get_setup(r._disp_conn);
-  xcb_screen_iterator_t siter   = xcb_setup_roots_iterator(setup);
-  xcb_screen_t          *screen = siter.data;
+  xcb_create_gc(r._disp_conn, ctx_black, win, mask, values);
 
-  ids.emplace("window", win);
+  // ids.emplace("window", win);
 
   xcb_create_window(r._disp_conn,
                     XCB_COPY_FROM_PARENT,
                     // ids.at("window"),
                     win,
-                    screen->root,
+                    r._screen->root,
                     0, 0, 800, 600,
                     10,
                     XCB_WINDOW_CLASS_INPUT_OUTPUT,
-                    screen->root_visual,
+                    r._screen->root_visual,
                     XCB_BACK_PIXMAP_NONE,
                     NULL);
 
