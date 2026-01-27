@@ -22,15 +22,6 @@ enum class IdType {
   GCTX,
 };
 
-void NewID(IdType kind) {
-  switch (kind) {
-  case IdType::DISPLAY:
-  case IdType::WINDOW:
-  case IdType::GCTX:
-    break;
-  }
-}
-
 int main() {
   using namespace lsr::renderer;
   using std::print;
@@ -41,7 +32,9 @@ int main() {
   std::map<std::uint32_t, IdType> ids;
 
   r._disp_conn = xcb_connect (NULL, &disp_id);
-  xcb_window_t win = xcb_generate_id(r._disp_conn);
+  xcb_window_t   win = xcb_generate_id(r._disp_conn);
+  xcb_gcontext_t ctx = xcb_generate_id(r._disp_conn);
+  xcb_create_gc(r._disp_conn, ctx, win.);
 
   const xcb_setup_t     *setup  = xcb_get_setup(r._disp_conn);
   xcb_screen_iterator_t siter   = xcb_setup_roots_iterator(setup);
