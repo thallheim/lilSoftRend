@@ -26,6 +26,11 @@ int main() {
   std::map<std::string, uint32_t> ids;
   ids.emplace("window", xcb_generate_id(r._disp_conn));
 
+  auto win = xcb_create_window(r._disp_conn, XCB_COPY_FROM_PARENT, ids.at("window"), NULL,
+                    0, 0, 800, 600, 1, XCB_WINDOW_CLASS_COPY_FROM_PARENT,
+                    XCB_COPY_FROM_PARENT, XCB_BACK_PIXMAP_NONE, NULL);
+  xcb_map_window(r._disp_conn, win);
+
   xcb_disconnect(r._disp_conn);
 
   print("Disp: {}\n", disp_id);
