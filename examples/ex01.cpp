@@ -16,28 +16,17 @@
 #include <X11/Xlib.h>
 
 
-enum class IdKind {
+enum class IdType {
   DISPLAY = 0,
   WINDOW,
   GCTX,
 };
 
-
-struct ID {
-  IdKind kind;
-  uint32_t id;
-
-  ID(IdKind k, uint32_t id) {
-    this->kind = k;
-    this->id = id;
-  }
-};
-
-void NewID(IdKind kind) {
+void NewID(IdType kind) {
   switch (kind) {
-  case IdKind::DISPLAY:
-  case IdKind::WINDOW:
-  case IdKind::GCTX:
+  case IdType::DISPLAY:
+  case IdType::WINDOW:
+  case IdType::GCTX:
     break;
   }
 }
