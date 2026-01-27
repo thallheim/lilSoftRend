@@ -8,7 +8,9 @@
 
 
 #include <print>
+#include <vector>
 #include <xcb/xcb.h>
+#include <xcb/xproto.h>
 #include <X11/Xlib.h>
 
 
@@ -17,13 +19,15 @@ int main() {
   using std::print;
   using std::println;
 
-  // xcb_connection_t *connection = xcb_connect (NULL, NULL);
   Renderer r;
-  int d;
-  r._disp_conn = xcb_connect (NULL, &d);
+  int disp_id;
+  r._disp_conn = xcb_connect (NULL, &disp_id);
 
-  // xcb_disconnect(connection);
+  std::vector<uint32_t> ids;
+  ids.emplace_back(xcb_generate_id(r._disp_conn));
+
   xcb_disconnect(r._disp_conn);
-  print("Disp: {}\n", d);
+
+  print("Disp: {}\n", disp_id);
   return 0;
 }
