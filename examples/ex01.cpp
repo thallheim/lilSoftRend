@@ -38,7 +38,7 @@ int main() {
 
   Renderer r;
   int disp_id;
-  std::map<std::string, uint32_t> ids;
+  std::map<std::uint32_t, IdType> ids;
 
   r._disp_conn = xcb_connect (NULL, &disp_id);
   xcb_window_t win = xcb_generate_id(r._disp_conn);
