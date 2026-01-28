@@ -27,7 +27,7 @@ int main() {
     glfwPollEvents();
 
     // do rendering things here
-    glfwSwapBuffers(r.GetWindowById(0));
+    // glfwSwapBuffers(r.GetWindowById(0));
   }
 
   for (auto *w : r.windows) glfwDestroyWindow(w);

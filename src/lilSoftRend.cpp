@@ -4,8 +4,17 @@
 #include "../include/lilSoftRend.hpp"
 #include "../include/windowing.hpp"
 
+/**
+ * @brief Initialise the renderer.
+ * Also inits the GLFW platform backend (defaulting to X11 on Linux)
+ * and sets an error callback.
+ * @returns True on success; False otherwise.
+*/
 bool lsr::Renderer::init() {
   glfwSetErrorCallback(glfwInitErrorCallback);
+
+  if (glfwPlatformSupported(GLFW_PLATFORM_X11))
+    glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
   if (!glfwInit()) {
     const char *edesc;
     glfwGetError(&edesc);

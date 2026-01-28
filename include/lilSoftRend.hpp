@@ -18,6 +18,7 @@ struct Renderer {
 
   void AddWindow(int width, int height, const char *title,
                  bool dbuffered = true);
+
   GLFWwindow *GetWindowById(size_t id);
 };
 
