@@ -1,11 +1,15 @@
 #include <print>
 #include "GLFW/glfw3.h"
+#include "../include/callbacks.hpp"
 #include "../include/lilSoftRend.hpp"
 #include "../include/windowing.hpp"
 
 bool lsr::Renderer::init() {
+  glfwSetErrorCallback(glfwInitErrorCallback);
   if (!glfwInit()) {
-    std::print(stderr,"ERROR: Failed to initialise GLFW\n");
+    const char *edesc;
+    glfwGetError(&edesc);
+    std::print(stderr, "{}\n", edesc);
     return false;
   }
 
@@ -22,5 +26,5 @@ GLFWwindow* lsr::Renderer::GetWindowById(size_t id) {
     return this->windows.at(id);
   }
   std::print(stderr, "ERROR: Window ID ({}) out of range\n", id);
-  return nullptr;  
+  return nullptr;
 }

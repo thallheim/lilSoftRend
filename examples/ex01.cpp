@@ -4,12 +4,16 @@
 
 using namespace lsr;
 
-#define W_WIDTH 800
+#define W_WIDTH  800
 #define W_HEIGHT 600
 
 int main() {
   Renderer r;
-  r.init();
+  if (!r.init()) {
+    glfwTerminate();
+    return -1;
+  }
+
 
   // GLFWwindow* window = lsr::window::CreateSimple(W_WIDTH, W_HEIGHT, "Window example");
   r.AddWindow(W_WIDTH, W_HEIGHT, "Window example");
