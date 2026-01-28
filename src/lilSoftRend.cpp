@@ -4,13 +4,15 @@
 #include "../include/lilSoftRend.hpp"
 #include "../include/windowing.hpp"
 
+using namespace lsr;
+
 /**
  * @brief Initialise the renderer.
  * Also inits the GLFW platform backend (defaulting to X11 on Linux)
  * and sets an error callback.
  * @returns True on success; False otherwise.
 */
-bool lsr::Renderer::init() {
+bool Renderer::init() {
   glfwSetErrorCallback(glfwInitErrorCallback);
 
   if (glfwPlatformSupported(GLFW_PLATFORM_X11))
@@ -25,14 +27,14 @@ bool lsr::Renderer::init() {
   return true;
 }
 
-void lsr::Renderer::AddWindow(int width, int height, const char *title,
-                                      bool dbuffered) {
-  this->windows.emplace_back(lsr::window::CreateSimple(width, height, title, dbuffered));
+void Renderer::AddWindow(int width, int height,
+                         const char *title, bool dbuffered) {
+  windows.emplace_back(window::CreateSimple(width, height, title, dbuffered));
 }
 
-GLFWwindow* lsr::Renderer::GetWindowById(size_t id) {
-  if (!this->windows.empty() && this->windows.size() >= id) {
-    return this->windows.at(id);
+GLFWwindow* Renderer::GetWindowById(size_t id) {
+  if (!windows.empty() && windows.size() >= id) {
+    return windows.at(id);
   }
   std::print(stderr, "ERROR: Window ID ({}) out of range\n", id);
   return nullptr;
