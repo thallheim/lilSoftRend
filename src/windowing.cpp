@@ -4,7 +4,7 @@
 GLFWwindow *lsr::window::CreateSimple(int width, int height, const char *title,
                                       bool dbuffered) {
   glfwWindowHint(GLFW_DOUBLEBUFFER, dbuffered);
-  /*GLFWwindow *win =*/ return glfwCreateWindow(width, height, title, NULL, NULL);
+  return glfwCreateWindow(width, height, title, NULL, NULL);
 }
 
 GLFWwindow *CreateSimple(int width, int height, int px, int py,

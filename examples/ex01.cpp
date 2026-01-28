@@ -2,30 +2,31 @@
 #include "../include/input.hpp"
 #include "GLFW/glfw3.h"
 
+using namespace lsr::renderer;
 
 #define W_WIDTH 800
 #define W_HEIGHT 600
 
 int main() {
-  if (!glfwInit()) {
-    return -1;
-  }
+  Renderer r;
+  r.init();
 
-  GLFWwindow* window = lsr::window::CreateSimple(W_WIDTH, W_HEIGHT, "Window example");
+  // GLFWwindow* window = lsr::window::CreateSimple(W_WIDTH, W_HEIGHT, "Window example");
+  r.AddWindow(W_WIDTH, W_HEIGHT, "Window example");
 
-  if (!window) {
+  if (!r.GetWindowById(0)) {
     glfwTerminate();
     return -1;
   }
 
-  while (!glfwWindowShouldClose(window)) {
+  while (!glfwWindowShouldClose(r.windows.back())) {
     glfwPollEvents();
 
     // do rendering things here
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(r.windows.back());
   }
 
-  glfwDestroyWindow(window);
+  glfwDestroyWindow(r.windows.back());
   glfwTerminate();
   return 0;
 }
