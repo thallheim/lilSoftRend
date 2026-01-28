@@ -19,14 +19,14 @@ int main() {
     return -1;
   }
 
-  while (!glfwWindowShouldClose(r.windows.back())) {
+  while (!glfwWindowShouldClose(r.GetWindowById(0))) {
     glfwPollEvents();
 
     // do rendering things here
-    glfwSwapBuffers(r.windows.back());
+    glfwSwapBuffers(r.GetWindowById(0));
   }
 
-  glfwDestroyWindow(r.windows.back());
+  for (auto *w : r.windows) glfwDestroyWindow(w);
   glfwTerminate();
   return 0;
 }
