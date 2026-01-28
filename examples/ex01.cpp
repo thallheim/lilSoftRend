@@ -9,13 +9,8 @@ using namespace lsr;
 
 int main() {
   Renderer r;
-  if (!r.init()) {
-    glfwTerminate();
-    return -1;
-  }
+  if (!r.init()) return -1;
 
-
-  // GLFWwindow* window = lsr::window::CreateSimple(W_WIDTH, W_HEIGHT, "Window example");
   r.AddWindow(W_WIDTH, W_HEIGHT, "Window example");
 
   if (!r.GetWindowById(0)) {
@@ -30,7 +25,6 @@ int main() {
     // glfwSwapBuffers(r.GetWindowById(0));
   }
 
-  for (auto *w : r.windows) glfwDestroyWindow(w);
-  glfwTerminate();
+  r.shutdown();
   return 0;
 }

@@ -21,15 +21,27 @@ bool Renderer::init() {
     const char *edesc;
     glfwGetError(&edesc);
     std::print(stderr, "{}\n", edesc);
+    glfwTerminate();
     return false;
   }
 
   return true;
 }
 
+void Renderer::shutdown() {
+  for (auto *w : windows) {
+    glfwDestroyWindow(w);
+  }
+  glfwTerminate();
+}
+
 void Renderer::AddWindow(int width, int height,
                          const char *title, bool dbuffered) {
   windows.emplace_back(window::CreateSimple(width, height, title, dbuffered));
+}
+
+void Renderer::AddWindow(GLFWwindow *window) {
+  windows.emplace_back(window);
 }
 
 GLFWwindow* Renderer::GetWindowById(size_t id) {
