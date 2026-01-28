@@ -6,7 +6,7 @@
 #include "input.hpp"
 #include "windowing.hpp"
 
-namespace lsr::renderer {
+namespace lsr {
 
 struct Renderer {
 

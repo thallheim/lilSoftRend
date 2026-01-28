@@ -2,7 +2,7 @@
 #include "../include/input.hpp"
 #include "GLFW/glfw3.h"
 
-using namespace lsr::renderer;
+using namespace lsr;
 
 #define W_WIDTH 800
 #define W_HEIGHT 600
