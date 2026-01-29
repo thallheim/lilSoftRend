@@ -9,7 +9,7 @@ namespace lsr {
 struct framebuf {
   static const int width  = 800;
   static const int height = 600;
-  unsigned char data[width * height * 4]; // RGBA
+  unsigned char    data[width * height * 4] = {0}; // RGBA
 
 
 }; // framebuf

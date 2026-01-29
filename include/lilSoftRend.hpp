@@ -2,15 +2,14 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 
-#include "callbacks.hpp"
-#include "input.hpp"
-#include "windowing.hpp"
+#include "types.hpp"
 
 namespace lsr {
 
 struct Renderer {
 
-  std::vector<GLFWwindow*> windows;
+  std::vector<GLFWwindow *> windows;
+  std::vector<framebuf>     fbos;
 
   Renderer() {}
 
