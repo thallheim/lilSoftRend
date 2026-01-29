@@ -12,15 +12,18 @@ using namespace lsr;
 int main() {
   Renderer r;
   if (!r.init()) return -1;
+
   Drawable2d d(50, 50);
+
   FBO f(W_WIDTH, W_HEIGHT);
   r.setFBO(&f);
-  vec3f v(1.0, 2.0, 3.6925);
 
+  vec3f v(1.0, 2.0, 3.6925);
   // std::print("vx: {:+.5f} vy: {:+.5f} vz: {:+.5f}\n", v.x, v.y, v.z);
+
   std::print("Yez\n");
-  r.shutdown();
-  return 0;
+  // r.shutdown();
+  // return 0;
 
   r.addWindow(W_WIDTH, W_HEIGHT, "Window example");
 
@@ -33,7 +36,7 @@ int main() {
     glfwPollEvents();
 
     // do rendering things here
-    // glfwSwapBuffers(r.GetWindowById(0));
+    // glfwSwapBuffers(r.getWindowById(0));
   }
 
   r.shutdown();
