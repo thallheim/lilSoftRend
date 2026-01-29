@@ -60,8 +60,8 @@ target_sources(lilSoftRend
     FILE_SET HEADERS
     BASE_DIRS "include/"
     FILES
-      "include/enums.hpp"
       "include/types.hpp"
+      "include/enums.hpp"
       "include/input.hpp"
       "include/callbacks.hpp"
       "include/lilSoftRend.hpp"

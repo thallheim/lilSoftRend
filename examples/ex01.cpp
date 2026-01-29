@@ -1,6 +1,8 @@
 #include "../include/lilSoftRend.hpp"
 #include "../include/input.hpp"
 #include "GLFW/glfw3.h"
+#include "types.hpp"
+#include "types/vector.hpp"
 
 using namespace lsr;
 
@@ -10,7 +12,12 @@ using namespace lsr;
 int main() {
   Renderer r;
   if (!r.init()) return -1;
-
+  Drawable2d d(50, 50);
+  framebuf f;
+  vec3f v(1.0, 2.0, 3.6925);
+  std::print("vx: {:+.5f} vy: {:+.5f} vz: {:+.5f}\n", v.x, v.y, v.z);
+  r.shutdown();
+  return 0;
   r.AddWindow(W_WIDTH, W_HEIGHT, "Window example");
 
   if (!r.GetWindowById(0)) {
