@@ -19,7 +19,6 @@ int main() {
   r.setFBO(&f);
 
   vec3f v(1.0, 2.0, 3.6925);
-  // std::print("vx: {:+.5f} vy: {:+.5f} vz: {:+.5f}\n", v.x, v.y, v.z);
 
   std::print("Yez\n");
   // r.shutdown();

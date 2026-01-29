@@ -13,11 +13,20 @@ using namespace lsr;
  * and sets an error callback.
  * @returns True on success; False otherwise.
 */
-bool Renderer::init() {
+bool Renderer::init(WINDOWING_API api) {
   glfwSetErrorCallback(glfwInitErrorCallback);
 
-  if (glfwPlatformSupported(GLFW_PLATFORM_X11))
-    glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
+  switch (api) {
+  case WINDOWING_API::X11:
+    if (glfwPlatformSupported(GLFW_PLATFORM_X11))
+      glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
+    break;
+  case WINDOWING_API::WIN32:
+  default:
+    if (glfwPlatformSupported(GLFW_PLATFORM_X11))
+      glfwInitHint(GLFW_PLATFORM, GLFW_PLATFORM_X11);
+  }
+
   if (!glfwInit()) {
     const char *edesc;
     glfwGetError(&edesc);
@@ -29,6 +38,7 @@ bool Renderer::init() {
   return true;
 }
 
+
 void Renderer::shutdown() {
   for (auto *w : windows) {
     glfwDestroyWindow(w);
@@ -36,13 +46,13 @@ void Renderer::shutdown() {
   glfwTerminate();
 }
 
-bool Renderer::setFBO(FBO *fb) {
+bool Renderer::setFBO(FBO *fbo) {
   if (fbo_active) fbo_active = nullptr; // release current FBO, if set
-  if (!fb) {
+  if (!fbo) {
     std::print(stderr, "Error: Can't set active FBO: Invalid framebuffer pointer.\n");
     return false;
   }
-  fbo_active = fb;
+  fbo_active = fbo;
   return true;
 }
 
