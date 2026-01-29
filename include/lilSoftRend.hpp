@@ -10,16 +10,23 @@ struct Renderer {
 
   std::vector<GLFWwindow *> windows;
   std::vector<framebuf>     fbos;
-
+  framebuf*                 fbo_active;
   Renderer() {}
 
   bool init();
   void shutdown();
 
-  void AddWindow(int width, int height, const char *title,
+  bool activateFBO(framebuf *fb);
+
+  // Drawing
+  void drawPixel(int posX, int posY, uchar r, uchar g, uchar b, uchar a = 255);
+
+
+  // Window stuff
+  void addWindow(int width, int height, const char *title,
                  bool dbuffered = true);
-  void AddWindow(GLFWwindow *window);
-  GLFWwindow *GetWindowById(size_t id);
+  void addWindow(GLFWwindow *window);
+  GLFWwindow *getWindowById(size_t id);
 };
 
 } // NS lsr
