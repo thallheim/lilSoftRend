@@ -46,7 +46,16 @@ bool Renderer::setFBO(FBO *fb) {
   return true;
 }
 
+/** @brief Draw a pixel into active #FBO.
+ * RGBA - values accepted 0-255.
+ */
 void Renderer::drawPixel(int posX, int posY, uchar r, uchar g, uchar b, uchar a) {
+  if (!fbo_active) { // no FBO active
+    std::print(stderr,
+               "Error: Renderer: Can't draw pixel(s) with no FBO active.");
+    return;
+  }
+
   if (posX < 0 || posX > fbo_active->width ||
       posY < 0 || posY > fbo_active->height) return; // boundary check
   int pidx = (posX * fbo_active->width * posY) * 4; // pixel index
