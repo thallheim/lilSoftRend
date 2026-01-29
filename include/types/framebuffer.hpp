@@ -10,13 +10,13 @@ namespace lsr {
    * @brief Framebuffer.
    * Holds a drawable's pixel data. Analogous to OpenGL's `FBO`s.
    */
-  struct framebuf {
+  struct FBO {
     uint width;
     uint height;
     uchar* data;
 
     /** Framebuffer constructor */
-    framebuf(uint size_x, uint size_y) {
+    FBO(uint size_x, uint size_y) {
       width = size_x;
       height = size_y;
 
@@ -25,7 +25,7 @@ namespace lsr {
     }
 
     /** Framebuffer destructor */
-    ~framebuf() {
+    ~FBO() {
       delete[] data;
     }
 

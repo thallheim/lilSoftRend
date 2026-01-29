@@ -9,14 +9,14 @@ namespace lsr {
 struct Renderer {
 
   std::vector<GLFWwindow *> windows;
-  std::vector<framebuf>     fbos;
-  framebuf*                 fbo_active;
+  std::vector<FBO>     fbos;
+  FBO*                 fbo_active;
   Renderer() {}
 
   bool init();
   void shutdown();
 
-  bool setFBO(framebuf *fb);
+  bool setFBO(FBO *fb);
 
   // Drawing
   void drawPixel(int posX, int posY, uchar r, uchar g, uchar b, uchar a = 255);

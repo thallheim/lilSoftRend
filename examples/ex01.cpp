@@ -13,7 +13,7 @@ int main() {
   Renderer r;
   if (!r.init()) return -1;
   Drawable2d d(50, 50);
-  framebuf f(800, 600);
+  FBO f(800, 600);
   r.setFBO(&f);
   vec3f v(1.0, 2.0, 3.6925);
 

@@ -36,7 +36,7 @@ void Renderer::shutdown() {
   glfwTerminate();
 }
 
-bool Renderer::setFBO(framebuf *fb) {
+bool Renderer::setFBO(FBO *fb) {
   if (fbo_active) fbo_active = nullptr; // release current FBO, if set
   if (!fb) {
     std::print(stderr, "Error: Can't set active FBO: Invalid framebuffer pointer.\n");
