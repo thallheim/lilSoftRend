@@ -3,6 +3,7 @@
 #include "../include/callbacks.hpp"
 #include "../include/lilSoftRend.hpp"
 #include "../include/windowing.hpp"
+#include "types/framebuffer.hpp"
 
 using namespace lsr;
 
@@ -35,7 +36,19 @@ void Renderer::shutdown() {
   glfwTerminate();
 }
 
+bool Renderer::setFBO(framebuf *fb) {
+  if (fbo_active) fbo_active = nullptr; // release current FBO, if set
+  if (!fb) {
+    std::print(stderr, "Error: Can't set active FBO: Invalid framebuffer pointer.\n");
+    return false;
+  }
+  fbo_active = fb;
+  return true;
+}
+
 void Renderer::drawPixel(int posX, int posY, uchar r, uchar g, uchar b, uchar a) {
+  if (posX < 0 || posX > fbo_active->width ||
+      posY < 0 || posY > fbo_active->height) return; // boundary check
   int pidx = (posX * fbo_active->width * posY) * 4; // pixel index
   this->fbo_active->data[pidx + 0] = r;
   this->fbo_active->data[pidx + 1] = g;

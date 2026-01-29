@@ -16,7 +16,7 @@ struct Renderer {
   bool init();
   void shutdown();
 
-  bool activateFBO(framebuf *fb);
+  bool setFBO(framebuf *fb);
 
   // Drawing
   void drawPixel(int posX, int posY, uchar r, uchar g, uchar b, uchar a = 255);

@@ -2,6 +2,7 @@
 #include <cstring>
 
 using uchar = unsigned char;
+using uint  = unsigned int;
 
 namespace lsr {
 
@@ -10,12 +11,12 @@ namespace lsr {
    * Holds a drawable's pixel data. Analogous to OpenGL's `FBO`s.
    */
   struct framebuf {
-    int width;
-    int height;
+    uint width;
+    uint height;
     uchar* data;
 
     /** Framebuffer constructor */
-    framebuf(int size_x, int size_y) {
+    framebuf(uint size_x, uint size_y) {
       width = size_x;
       height = size_y;
 
