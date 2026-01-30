@@ -34,12 +34,12 @@ struct Renderer {
   }
 
   Window CreateWindow(Display *disp, Window *parent, int px, int py,
-                      uint width, uint height,
-                      uint border_width, ulong border,
-                      ulong background, const char *title = NULL);
+                      uint width, uint height, uint border_width,
+                      ulong border, ulong background, const char *title = NULL);
   Window CreateWindow(Display *disp, Window *parent, const char *title = NULL);
 
   const char* GetError() const;
+  void        ClearError();
 
 private:
   bool Init();
