@@ -19,7 +19,12 @@ Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
     // TODO: error handling
   }
 
-  Window w = 0;
+  int cblack = BlackPixel(disp, DefaultScreen(disp));
+  int cwhite = WhitePixel(disp, DefaultScreen(disp));
+
+  Window w = XCreateSimpleWindow(disp, *parent, px, py, width, height,
+                                 border, cblack, cblack);
+
   if (title) XStoreName(disp, w, title); // set title if provided
   return w;
 }
