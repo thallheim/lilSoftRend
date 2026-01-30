@@ -9,17 +9,22 @@
 namespace lsr::renderer {
 
 struct Renderer {
-  Display           *_display   = NULL;
+  Display *display = NULL;
+  Window **windows = NULL;
 
-  Renderer() {}
-
-  Renderer(int disp_num) : _display(XOpenDisplay(NULL))
-  {
-
+  Renderer() {
+    Init();
+    ConnectDisplay();
   }
 
+  Renderer(int disp_num) : display(XOpenDisplay(NULL))
+  {
+    Init();
+  }
+
+private:
   bool Init();
-  void Connect();
+  void ConnectDisplay();
   };
 
 

@@ -21,41 +21,40 @@ int main()
 {
   // Open display
   Renderer r;
-  r.Connect();
 
   // Get some colors
-  int cblack = BlackPixel(r._display, DefaultScreen(r._display));
-  int cwhite = WhitePixel(r._display, DefaultScreen(r._display));
+  int cblack = BlackPixel(r.display, DefaultScreen(r.display));
+  int cwhite = WhitePixel(r.display, DefaultScreen(r.display));
 
   // Create the window
-  Window win = XCreateSimpleWindow(r._display, DefaultRootWindow(r._display),
+  Window win = XCreateSimpleWindow(r.display, DefaultRootWindow(r.display),
                                    0, 0, 200, 100, 0, cblack, cblack);
 
   // Select MapNotify events
-  XSelectInput(r._display, win, StructureNotifyMask);
+  XSelectInput(r.display, win, StructureNotifyMask);
 
   // Map window
-  XMapWindow(r._display, win);
+  XMapWindow(r.display, win);
 
   // Create graphics ctx
-  GC gc = XCreateGC(r._display, win, 0, NULL);
+  GC gc = XCreateGC(r.display, win, 0, NULL);
 
   // Tell the GC we draw using the white color
-  XSetForeground(r._display, gc, cwhite);
+  XSetForeground(r.display, gc, cwhite);
 
   // Wait for the MapNotify event
   for(;;) {
     XEvent e;
-    XNextEvent(r._display, &e);
+    XNextEvent(r.display, &e);
     if (e.type == MapNotify)
       break;
   }
 
   // Draw the line
-  XDrawLine(r._display, win, gc, 10, 60, 180, 20);
+  XDrawLine(r.display, win, gc, 10, 60, 180, 20);
 
   // Send the "DrawLine" request to the server
-  XFlush(r._display);
+  XFlush(r.display);
 
   // Wait
   pause();

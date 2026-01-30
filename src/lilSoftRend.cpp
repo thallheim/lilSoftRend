@@ -6,10 +6,10 @@ bool lsr::renderer::Renderer::Init() {
   return false;
 }
 
-void lsr::renderer::Renderer::Connect() {
-  _display = XOpenDisplay(NULL);
+void lsr::renderer::Renderer::ConnectDisplay() {
+  display = XOpenDisplay(NULL);
 
-  if (!_display) {
+  if (!display) {
     std::print(stderr, "ERROR: Couldn't connect to display\n");
     throw std::runtime_error("Couldn't connect to display");
   }
