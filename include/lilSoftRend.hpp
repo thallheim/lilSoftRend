@@ -7,6 +7,10 @@
 #include "../include/windowing.hpp"
 #include "../include/enums.hpp"
 
+using uchar = unsigned char;
+using uint  = unsigned int;
+using ulong = unsigned long;
+
 namespace lsr {
 
 struct Renderer {
@@ -29,7 +33,11 @@ struct Renderer {
     delete[] windows;
   }
 
-  Window CreateWindow(Display *disp, Window parent, const char *title = NULL);
+  Window CreateWindow(Display *disp, Window *parent, int px, int py,
+                      uint width, uint height,
+                      uint border_width, ulong border,
+                      ulong background, const char *title = NULL);
+  Window CreateWindow(Display *disp, Window *parent, const char *title = NULL);
 
   const char* GetError() const;
 

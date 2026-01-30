@@ -10,7 +10,23 @@ bool Renderer::Init() {
   return false;
 }
 
-Window Renderer::CreateWindow(Display *disp, Window parent, const char *title) {
+Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
+                      uint width, uint height,
+                      uint border_width, ulong border,
+                      ulong background, const char *title) {
+  if (!display) {
+    print(stderr, "ERROR: {}: No display connection active.\n", __FUNCTION__);
+    // TODO: error handling
+  }
+
+  Window w = 0;
+
+  if (title) XStoreName(disp, w, title); // set title if provided
+
+  return w;
+}
+
+Window Renderer::CreateWindow(Display *disp, Window *parent, const char *title) {
   if (!display) {
     print(stderr, "ERROR: {}: No display connection active.\n", __FUNCTION__);
     // TODO: error handling
