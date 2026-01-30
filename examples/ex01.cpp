@@ -28,7 +28,7 @@ int main()
 
   // Create the window
   Window win = XCreateSimpleWindow(r.display, DefaultRootWindow(r.display),
-                                   0, 0, 200, 100, 0, cblack, cblack);
+                                   0, 0, W_WIDTH, W_HEIGHT, 0, cblack, cblack);
 
   // Select MapNotify events
   XSelectInput(r.display, win, StructureNotifyMask);

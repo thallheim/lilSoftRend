@@ -10,7 +10,7 @@
 namespace lsr {
 
 struct Renderer {
-  lsr::ErrorKind  kind;
+  lsr::ErrorKind  ekind;
   const char      *emsg = NULL;
 
 
@@ -22,12 +22,14 @@ struct Renderer {
     ConnectDisplay();
   }
 
-  Renderer(int disp_num) : display(XOpenDisplay(NULL))
-  {
-    Init();
+  Renderer(int disp_num) : display(XOpenDisplay(NULL)) { Init(); }
+
+  ~Renderer() {
+    for (int i = 0; i < sizeof(windows); ++i) delete[] windows[i];
+    delete[] windows;
   }
 
-  Window CreateWindow(Display *disp, Window parent);
+  Window CreateWindow(Display *disp, Window parent, const char *title = NULL);
 
   const char* GetError() const;
 
