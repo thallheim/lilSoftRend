@@ -4,7 +4,7 @@
 namespace lsr {
 
 enum class ErrorKind : uint16_t {
-
+  NONE = 0,
 };
 
 }
