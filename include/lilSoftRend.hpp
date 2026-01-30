@@ -7,7 +7,7 @@
 #include "../include/windowing.hpp"
 #include "../include/enums.hpp"
 
-namespace lsr::renderer {
+namespace lsr {
 
 struct Renderer {
   lsr::ErrorKind  kind;

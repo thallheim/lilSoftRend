@@ -14,13 +14,13 @@
 #include <unistd.h>
 #include <X11/Xlib.h>
 
-using namespace lsr::renderer;
+// using namespace lsr;
 using std::print;
 
 int main()
 {
   // Open display
-  Renderer r;
+  lsr::Renderer r;
 
   // Get some colors
   int cblack = BlackPixel(r.display, DefaultScreen(r.display));

@@ -1,24 +1,26 @@
 #include <print>
 #include "../include/lilSoftRend.hpp"
 
-bool lsr::renderer::Renderer::Init() {
+using namespace lsr;
+
+bool Renderer::Init() {
   ConnectDisplay();
   return false;
 }
 
-Window lsr::renderer::Renderer::CreateWindow(Display *disp, Window parent) {
+Window Renderer::CreateWindow(Display *disp, Window parent) {
   Window w = 0;
 
   return w;
 }
 
-const char* lsr::renderer::Renderer::GetError() const {
+const char* Renderer::GetError() const {
   if (!emsg) return NULL;
   return emsg;
 }
 
 // TODO: don't throw
-void lsr::renderer::Renderer::ConnectDisplay(const char *disp_name) {
+void Renderer::ConnectDisplay(const char *disp_name) {
   display = XOpenDisplay(disp_name);
 
   if (!display) {
