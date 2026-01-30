@@ -1,6 +1,7 @@
 #include "../include/lilSoftRend.hpp"
 #include "../include/input.hpp"
 #include "GLFW/glfw3.h"
+#include "enums.hpp"
 #include "types.hpp"
 #include "types/vector.hpp"
 
@@ -11,7 +12,7 @@ using namespace lsr;
 
 int main() {
   Renderer r;
-  if (!r.init()) return -1;
+  if (!r.init(lsr::WINDOWING_API::X11)) return -1;
 
   Drawable2d d(50, 50);
 
