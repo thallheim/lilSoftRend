@@ -5,10 +5,15 @@
 #include <X11/keysymdef.h>
 
 #include "../include/windowing.hpp"
+#include "../include/enums.hpp"
 
 namespace lsr::renderer {
 
 struct Renderer {
+  lsr::ErrorKind  kind;
+  const char      *emsg = NULL;
+
+
   Display *display = NULL;
   Window **windows = NULL;
 
@@ -22,9 +27,13 @@ struct Renderer {
     Init();
   }
 
+  Window CreateWindow(Display *disp, Window parent);
+
+  const char* GetError() const;
+
 private:
   bool Init();
-  void ConnectDisplay();
+  void ConnectDisplay(const char *display = NULL);
   };
 
 
