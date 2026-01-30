@@ -6,6 +6,6 @@
 
 namespace lsr::window {
 
-  Window* New(const char* title, int height, int width);
+
 
 } // NS lsr::windowing
