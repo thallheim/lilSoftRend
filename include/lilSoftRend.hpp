@@ -46,8 +46,8 @@ private:
   bool Init();
   void ConnectX11Server(const char *display = NULL);
   static Screen*  GetDefaultScreen(Display* dsp);
-  static Visual*  GetVisual(Window* win);
-  static Colormap GetColourmap(Window* win);
+  static Visual*  GetDefaultVisual(Screen* scr);
+  static Colormap GetDefaultColourmap(Screen* scr);
 
 }; // Renderer
 

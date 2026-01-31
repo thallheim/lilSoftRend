@@ -61,24 +61,16 @@ void Renderer::ConnectX11Server(const char *disp_name) {
     print(stderr, "ERROR: Couldn't connect to display\n");
     throw std::runtime_error("Couldn't connect to display");
   }
-
-
-
 }
 
 Screen* Renderer::GetDefaultScreen(Display* dsp) {
   return XDefaultScreenOfDisplay(dsp);
 }
 
-Visual* Renderer::GetVisual(Window *win) {
-  Visual *v;
-  // TODO: use XGetVisualInfo()?
-  // return XDefaultVisual(display, 0); // nope - not when static :(
-  return v;
+Visual* Renderer::GetDefaultVisual(Screen *scr) {
+  return XDefaultVisualOfScreen(scr);
 }
 
-Colormap Renderer::GetColourmap(Window *win) {
-  Colormap cm;
-
-  return cm;
+Colormap Renderer::GetDefaultColourmap(Screen* scr) {
+  return XDefaultColormapOfScreen(scr);
 }
