@@ -1,4 +1,6 @@
 #pragma once
+#include <X11/X.h>
+#include <X11/Xlib.h>
 #include <cstdint>
 #include <stdexcept>
 #include "../enums.hpp"
@@ -25,6 +27,19 @@ struct Colour {
       throw std::out_of_range("This was supposed to be unreachable, y'know.");
     }
   }
+
+  XColor AsXColor() {
+    XColor xcol;
+    xcol.red   = scaleUp(r);
+    xcol.green = scaleUp(g);
+    xcol.blue  = scaleUp(b);
+    xcol.pixel = scaleUp(a);
+    xcol.flags = DoRed | DoGreen | DoBlue;
+
+    return xcol;
+  }
+
+  /* STATICS ************************** */
 
   /// Scale up a [0-255] value to match X11's [0-65535] range.
   static uint16_t scaleUp(uint16_t og_value) {
