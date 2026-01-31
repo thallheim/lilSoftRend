@@ -17,6 +17,21 @@ struct Colour {
   uint16_t b;
   uint16_t a;
 
+  /** @brief Default `Colour` constructor.
+   *
+   * Accepted range [0-255]. Scaling/formatting:
+   * scaleUp()/scaleDown() can be used for
+   * individual values, or the AsXColor() ctor if the colour is to be
+   * passed as such.
+   */
+  Colour(uint16_t r, uint16_t g, uint16_t b, uint16_t a) {
+    this->r = r;
+    this->g = g;
+    this->b = b;
+    this->a = a;
+  }
+
+  /** Get colour value of channel `c`. */
   uint16_t Get(colour::Channel c) {
     using namespace colour;
     switch (c) {

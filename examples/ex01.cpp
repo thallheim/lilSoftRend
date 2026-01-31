@@ -21,6 +21,7 @@ int main()
 {
   // Open display
   lsr::Renderer r;
+  Colour c(255, 0, 0, 255);
 
   // Get some colors
   int cblack = BlackPixel(r.display, DefaultScreen(r.display));
