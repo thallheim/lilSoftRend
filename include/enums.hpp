@@ -16,7 +16,7 @@ enum class ErrorKind : uint16_t {
 /*********************************************
  * Colours
  ********************************************/
-namespace lsr::colours {
+namespace lsr::colour {
 
   enum class Base : uint32_t {
     Black = 0,
@@ -50,4 +50,7 @@ namespace lsr::colours {
     Blue  = (uint32_t)Base::Blue,
 };
 
-}
+
+  enum class Channel : uint8_t { a = 0, r, g, b };
+
+} // NS colour
