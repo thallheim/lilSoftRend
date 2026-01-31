@@ -18,11 +18,12 @@ struct Colour {
   uint16_t a;
 
   uint16_t Get(colour::Channel c) {
+    using namespace colour;
     switch (c) {
-    case colour::Channel::r: return r;
-    case colour::Channel::g: return g;
-    case colour::Channel::b: return b;
-    case colour::Channel::a: return a;
+    case Channel::r: return r;
+    case Channel::g: return g;
+    case Channel::b: return b;
+    case Channel::a: return a;
     default:
       throw std::out_of_range("This was supposed to be unreachable, y'know.");
     }
