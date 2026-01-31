@@ -18,9 +18,9 @@ struct Renderer {
   lsr::ErrorKind  ekind;
   const char      *emsg = NULL;
 
-  Display  *display = NULL;
-  Screen*  default_dsp = NULL;
-  Window   **windows = NULL;
+  Display         *display  = NULL;
+  Screen          *screen   = NULL;
+  Window          **windows = NULL;
 
   Renderer() {
     Init();
@@ -51,6 +51,12 @@ private:
 
   /** Connect to selected X11 `Display`, or default `Display` if null. */
   bool ConnectX11Server(const char *display = NULL);
+
+  /** @brief Grab Screen `scr`.
+   * Returns NULL if there is no Display connected.
+   */
+  Screen *GetScreen(int scr);
+
   static Screen*  GetDefaultScreen(Display* dsp);
   static Visual*  GetDefaultVisual(Screen* scr);
   static Colormap GetDefaultColourmap(Screen* scr);

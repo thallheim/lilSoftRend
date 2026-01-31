@@ -11,8 +11,8 @@ using std::print;
 bool Renderer::Init() {
   ConnectX11Server();
 
-  default_screen = XDefaultScreenOfDisplay(display);
-  if (!default_screen) {
+  screen = XDefaultScreenOfDisplay(display);
+  if (!screen) {
     print(stderr, "ERROR: Failed: Query default screen.\n");
     return false;
   }
@@ -30,6 +30,15 @@ bool Renderer::ConnectX11Server(const char *dsp) {
     print(stderr, "ERROR: Failed: Connect to display.\n");
     return false;
   }
+}
+
+Screen* Renderer::GetScreen(int scr) {
+  if (!display) {
+    print(stderr, "ERROR: {}: No display connected.\n", __FUNCTION__);
+    // TODO: error handling?
+    return NULL;
+  }
+  return XScreenOfDisplay(display, scr);
 }
 
 Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
