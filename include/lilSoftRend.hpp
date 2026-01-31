@@ -17,13 +17,13 @@ struct Renderer {
   lsr::ErrorKind  ekind;
   const char      *emsg = NULL;
 
-
   Display *display = NULL;
+  Screen* default_screen = NULL;
   Window **windows = NULL;
 
   Renderer() {
     Init();
-    ConnectDisplay();
+    ConnectX11Server();
   }
 
   Renderer(int disp_num) : display(XOpenDisplay(NULL)) { Init(); }
@@ -43,8 +43,12 @@ struct Renderer {
 
 private:
   bool Init();
-  void ConnectDisplay(const char *display = NULL);
-  };
+  void ConnectX11Server(const char *display = NULL);
+  static Screen*  GetDefaultScreen(Display* dsp);
+  static Visual*  GetVisual(Window* win);
+  static Colormap GetColourmap(Window* win);
+
+}; // Renderer
 
 
 } // NS lsr

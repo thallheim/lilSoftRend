@@ -1,4 +1,5 @@
 #include <X11/Xlib.h>
+#include <X11/Xutil.h>
 #include <print>
 #include "../include/lilSoftRend.hpp"
 #include "enums.hpp"
@@ -7,8 +8,15 @@ using namespace lsr;
 using std::print;
 
 bool Renderer::Init() {
-  ConnectDisplay();
-  return false;
+  ConnectX11Server();
+
+  default_screen = XDefaultScreenOfDisplay(display);
+  if (!default_screen) {
+    print(stderr, "ERROR: Failed: Query default screen.\n");
+    return false;
+  }
+
+  return true;
 }
 
 Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
@@ -21,6 +29,8 @@ Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
 
   int cblack = BlackPixel(disp, DefaultScreen(disp));
   int cwhite = WhitePixel(disp, DefaultScreen(disp));
+  Screen *scr = XScreenOfDisplay(disp, 0);
+  GC gc = scr->default_gc;
 
   Window w = XCreateSimpleWindow(disp, *parent, px, py, width, height,
                                  border, cblack, cblack);
@@ -44,7 +54,7 @@ const char* Renderer::GetError() const {
 void Renderer::ClearError() { emsg = NULL; ekind = ErrorKind::NONE; }
 
 // TODO: don't throw
-void Renderer::ConnectDisplay(const char *disp_name) {
+void Renderer::ConnectX11Server(const char *disp_name) {
   display = XOpenDisplay(disp_name);
 
   if (!display) {
@@ -52,4 +62,23 @@ void Renderer::ConnectDisplay(const char *disp_name) {
     throw std::runtime_error("Couldn't connect to display");
   }
 
+
+
+}
+
+Screen* Renderer::GetDefaultScreen(Display* dsp) {
+  return XDefaultScreenOfDisplay(dsp);
+}
+
+Visual* Renderer::GetVisual(Window *win) {
+  Visual *v;
+  // TODO: use XGetVisualInfo()?
+  // return XDefaultVisual(display, 0); // nope - not when static :(
+  return v;
+}
+
+Colormap Renderer::GetColourmap(Window *win) {
+  Colormap cm;
+
+  return cm;
 }
