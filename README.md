@@ -6,4 +6,4 @@ Eine kleine Software Renderer exercise.
 
 ## todo
 
-  * [ ] `Colour` ctor
+  * [x] `Colour` ctor
