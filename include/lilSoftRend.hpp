@@ -5,6 +5,7 @@
 #include <X11/keysymdef.h>
 
 #include "../include/windowing.hpp"
+#include "../include/types.hpp"
 #include "../include/enums.hpp"
 
 using uchar = unsigned char;
