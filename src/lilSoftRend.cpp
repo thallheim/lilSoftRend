@@ -1,6 +1,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <print>
+
 #include "../include/lilSoftRend.hpp"
 #include "enums.hpp"
 
@@ -17,6 +18,18 @@ bool Renderer::Init() {
   }
 
   return true;
+}
+
+// TODO: throw, probably
+bool Renderer::ConnectX11Server(const char *dsp) {
+  if (!dsp) display = XOpenDisplay(NULL); // use default
+  if (dsp)  display = XOpenDisplay(dsp);  // use provided
+
+  if (display) return true;
+  else {
+    print(stderr, "ERROR: Failed: Connect to display.\n");
+    return false;
+  }
 }
 
 Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
@@ -52,16 +65,6 @@ const char* Renderer::GetError() const {
 }
 
 void Renderer::ClearError() { emsg = NULL; ekind = ErrorKind::NONE; }
-
-// TODO: don't throw
-void Renderer::ConnectX11Server(const char *disp_name) {
-  display = XOpenDisplay(disp_name);
-
-  if (!display) {
-    print(stderr, "ERROR: Couldn't connect to display\n");
-    throw std::runtime_error("Couldn't connect to display");
-  }
-}
 
 Screen* Renderer::GetDefaultScreen(Display* dsp) {
   return XDefaultScreenOfDisplay(dsp);

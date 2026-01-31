@@ -69,3 +69,7 @@ struct Colour {
   }
 
 };
+
+// namespace lsr::colour {
+
+// } // NS colour

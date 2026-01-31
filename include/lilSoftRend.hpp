@@ -18,9 +18,9 @@ struct Renderer {
   lsr::ErrorKind  ekind;
   const char      *emsg = NULL;
 
-  Display *display = NULL;
-  Screen* default_screen = NULL;
-  Window **windows = NULL;
+  Display  *display = NULL;
+  Screen*  default_dsp = NULL;
+  Window   **windows = NULL;
 
   Renderer() {
     Init();
@@ -37,14 +37,20 @@ struct Renderer {
   Window CreateWindow(Display *disp, Window *parent, int px, int py,
                       uint width, uint height, uint border_width,
                       ulong border, ulong background, const char *title = NULL);
+
   Window CreateWindow(Display *disp, Window *parent, const char *title = NULL);
 
   const char* GetError() const;
   void        ClearError();
 
 private:
+  /** Initialise renderer.
+   *
+   */
   bool Init();
-  void ConnectX11Server(const char *display = NULL);
+
+  /** Connect to selected X11 `Display`, or default `Display` if null. */
+  bool ConnectX11Server(const char *display = NULL);
   static Screen*  GetDefaultScreen(Display* dsp);
   static Visual*  GetDefaultVisual(Screen* scr);
   static Colormap GetDefaultColourmap(Screen* scr);
