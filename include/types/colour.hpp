@@ -1,6 +1,7 @@
 #pragma once
 #include <X11/X.h>
 #include <X11/Xlib.h>
+#include <algorithm>
 #include <cstdint>
 #include <stdexcept>
 #include "../enums.hpp"
@@ -10,6 +11,7 @@ using namespace lsr;
 using uchar = unsigned char;
 using ulong = unsigned long;
 using uint  = unsigned int;
+using std::clamp;
 
 struct Colour {
   uint16_t r;
@@ -49,7 +51,7 @@ struct Colour {
     xcol.red   = scaleUp(r);
     xcol.green = scaleUp(g);
     xcol.blue  = scaleUp(b);
-    xcol.pixel = scaleUp(a);
+    xcol.pixel = scaleUp(a); // FIXME: wrong
     xcol.flags = DoRed | DoGreen | DoBlue;
 
     return xcol;
@@ -68,19 +70,36 @@ struct Colour {
     return static_cast<uint16_t>(og_value) / (65535/255);
   }
 
-};
+}; // Colour
 
 namespace lsr::colour {
 
-struct BaseColour {
-  Colour black     { 0  , 0  , 0  , 255 };
-  Colour white     { 255, 255, 255, 255 };
-  Colour red       { 255, 0  , 0  , 255 };
-  Colour green     { 0  , 255, 0  , 255 };
-  Colour blue      { 0  , 0  , 255, 255 };
+  /** @brief Returns brightness/intensity-adjusted `Colour`.
+   * To darken by 50%, pass _0.5f_, to lighten by 25%, pass _1.25f_,
+   * and so on.
+   * @param Source/reference #Colour.
+   * @param Adjustment factor.
+   */
+  // TODO: ctor accepting normalised factor ([0-1])
+  inline Colour brightnessAdjusted(const Colour &c, float factor) {
+    return {
+      static_cast<uint16_t>(clamp(c.r * factor, 0.0f, (float)c.a)),
+      static_cast<uint16_t>(clamp(c.g * factor, 0.0f, (float)c.a)),
+      static_cast<uint16_t>(clamp(c.b * factor, 0.0f, (float)c.a)),
+      static_cast<uint16_t>(c.a)
+    };
+  }
 
-  Colour grey      { 18 , 18 , 18 , 255 };
-  Colour dark_grey { 80 , 80 , 80 , 255 };
+
+static Colour BaseColour[] = {
+  { 0  , 0  , 0  , 255 }, // black
+  { 255, 255, 255, 255 }, // white
+  { 255, 0  , 0  , 255 }, // red
+  { 0  , 255, 0  , 255 }, // green
+  { 0  , 0  , 255, 255 }, // blue
+
+  { 18 , 18 , 18 , 255 }, // grey
+  { 80 , 80 , 80 , 255 }, // dark grey
 };
 
 } // NS colour
