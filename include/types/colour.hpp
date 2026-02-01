@@ -70,6 +70,17 @@ struct Colour {
 
 };
 
-// namespace lsr::colour {
+namespace lsr::colour {
 
-// } // NS colour
+struct BaseColour {
+  Colour black     { 0  , 0  , 0  , 255 };
+  Colour white     { 255, 255, 255, 255 };
+  Colour red       { 255, 0  , 0  , 255 };
+  Colour green     { 0  , 255, 0  , 255 };
+  Colour blue      { 0  , 0  , 255, 255 };
+
+  Colour grey      { 18 , 18 , 18 , 255 };
+  Colour dark_grey { 80 , 80 , 80 , 255 };
+};
+
+} // NS colour
