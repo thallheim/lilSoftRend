@@ -30,10 +30,12 @@ int main()
   // Create the window
   Window win = XCreateSimpleWindow(r.display, DefaultRootWindow(r.display),
                                    0, 0, W_WIDTH, W_HEIGHT, 0, cblack, cblack);
+
   Window win2 = r.CreateWindow(r.display, &DefaultRootWindow(r.display), "Woo");
 
   // Select MapNotify events
   XSelectInput(r.display, win, StructureNotifyMask);
+  XSelectInput(r.display, win2, StructureNotifyMask);
 
   // Map window
   XMapWindow(r.display, win);
