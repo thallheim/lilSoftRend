@@ -22,12 +22,7 @@ struct Renderer {
   Screen          *screen   = NULL;
   Window          **windows = NULL;
 
-  Renderer() {
-    Init();
-    ConnectX11Server();
-  }
-
-  Renderer(int disp_num) : display(XOpenDisplay(NULL)) { Init(); }
+  Renderer() { Init(); }
 
   ~Renderer() {
     for (int i = 0; i < sizeof(windows); ++i) delete[] windows[i];
@@ -45,14 +40,16 @@ struct Renderer {
 
 private:
   /** Initialise renderer.
-   *
+   * Called by Renderer constructor.
    */
   bool Init();
 
-  /** Connect to selected X11 `Display`, or default `Display` if null. */
-  bool ConnectX11Server(const char *display = NULL);
+  /** Connect to default X11 server/Display.
+   * Called by Init().
+   */
+  bool ConnectDefaultDisplay();
 
-  /** @brief Grab Screen `scr`, or NULL if there is no Display connection.
+  /** @brief Grab Screen `scr`, or NULL on failure.
    */
   Screen *GetScreen(int scr);
 

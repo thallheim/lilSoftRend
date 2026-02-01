@@ -9,7 +9,7 @@ using namespace lsr;
 using std::print;
 
 bool Renderer::Init() {
-  ConnectX11Server();
+  ConnectDefaultDisplay();
 
   screen = XDefaultScreenOfDisplay(display);
   if (!screen) {
@@ -21,9 +21,8 @@ bool Renderer::Init() {
 }
 
 // TODO: throw, probably
-bool Renderer::ConnectX11Server(const char *dsp) {
-  if (!dsp) display = XOpenDisplay(NULL); // use default
-  if (dsp)  display = XOpenDisplay(dsp);  // use provided
+bool Renderer::ConnectDefaultDisplay() {
+  display = XOpenDisplay(NULL);
 
   if (display) return true;
   else {
