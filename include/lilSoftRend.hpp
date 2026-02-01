@@ -52,8 +52,7 @@ private:
   /** Connect to selected X11 `Display`, or default `Display` if null. */
   bool ConnectX11Server(const char *display = NULL);
 
-  /** @brief Grab Screen `scr`.
-   * Returns NULL if there is no Display connected.
+  /** @brief Grab Screen `scr`, or NULL if there is no Display connection.
    */
   Screen *GetScreen(int scr);
 

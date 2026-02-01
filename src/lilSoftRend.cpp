@@ -13,7 +13,7 @@ bool Renderer::Init() {
 
   screen = XDefaultScreenOfDisplay(display);
   if (!screen) {
-    print(stderr, "ERROR: Failed: Query default screen.\n");
+    print(stderr, "ERROR: Failed: Connect default screen.\n");
     return false;
   }
 
