@@ -25,7 +25,8 @@ struct Renderer {
   Renderer() { Init(); }
 
   ~Renderer() {
-    for (int i = 0; i < sizeof(windows); ++i) delete[] windows[i];
+    for (int i = 0; i < sizeof(_windows_count) / sizeof(windows[0]); ++i)
+      XDestroyWindow(display, *windows[i]);
     delete[] windows;
   }
 
@@ -38,7 +39,7 @@ struct Renderer {
   const char* GetError() const;
   void        ClearError();
 
-private:
+
   /** Initialise renderer.
    * Called by Renderer constructor.
    */
@@ -59,7 +60,10 @@ private:
   static Visual*  GetDefaultVisual(Screen* scr);
   static Colormap GetDefaultColourmap(Screen* scr);
 
-}; // Renderer
+private:
+  size_t _windows_count = 0;
+
+  }; // Renderer
 
 
 } // NS lsr

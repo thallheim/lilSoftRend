@@ -30,18 +30,22 @@ int main()
   // Create the window
   Window win = XCreateSimpleWindow(r.display, DefaultRootWindow(r.display),
                                    0, 0, W_WIDTH, W_HEIGHT, 0, cblack, cblack);
+  Window win2 = r.CreateWindow(r.display, &DefaultRootWindow(r.display), "Woo");
 
   // Select MapNotify events
   XSelectInput(r.display, win, StructureNotifyMask);
 
   // Map window
   XMapWindow(r.display, win);
+  XMapWindow(r.display, win2);
 
   // Create graphics ctx
   GC gc = XCreateGC(r.display, win, 0, NULL);
+  GC gc2 = XCreateGC(r.display, win2, 0, NULL);
 
   // Tell the GC we draw using the white color
   XSetForeground(r.display, gc, cwhite);
+  XSetForeground(r.display, gc2, cwhite);
 
   // Wait for the MapNotify event
   for(;;) {
@@ -53,6 +57,7 @@ int main()
 
   // Draw the line
   XDrawLine(r.display, win, gc, 10, 60, 180, 20);
+  XDrawLine(r.display, win2, gc2, 20, 70, 180, 20);
 
   // Send the "DrawLine" request to the server
   XFlush(r.display);

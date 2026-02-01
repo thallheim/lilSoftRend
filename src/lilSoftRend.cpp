@@ -57,6 +57,7 @@ Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
                                  border, cblack, cblack);
 
   if (title) XStoreName(disp, w, title); // set title if provided
+  _windows_count++;
   return w;
 }
 
