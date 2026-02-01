@@ -49,10 +49,12 @@ private:
    */
   bool ConnectDefaultDisplay();
 
-  /** @brief Grab Screen `scr`, or NULL on failure.
-   */
+  /** @brief Ptr to Screen `scr`. Returns NULL on failure. */
   Screen *GetScreen(int scr);
 
+  /** @brief Ptr to default Screen of Display `dsp`.
+   * Returns NULL on failure.
+   */
   static Screen*  GetDefaultScreen(Display* dsp);
   static Visual*  GetDefaultVisual(Screen* scr);
   static Colormap GetDefaultColourmap(Screen* scr);
