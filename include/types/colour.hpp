@@ -13,6 +13,9 @@ using uchar = unsigned char;
 using ulong = unsigned long;
 using uint  = unsigned int;
 using std::clamp;
+using std::string;
+using std::string_view;
+
 
 struct Colour {
   uint16_t r;
@@ -72,7 +75,29 @@ struct Colour {
 
 }; // Colour
 
+
 namespace lsr::colour {
+
+  const string LSR_BLACK    {"black"};
+  const string LSR_WHITE    {"white"};
+  const string LSR_RED      {"red"};
+  const string LSR_GREEN    {"green"};
+  const string LSR_BLUE     {"blue"};
+  const string LSR_DARKGREY {"darkgrey"};
+
+  inline const std::map<string, ulong> NamedColour {
+    { LSR_BLACK,    ((255 << 16) | (  0 << 8) |   0 << 0) }, // 0x000000
+    { LSR_WHITE,    ((255 << 16) | (255 << 8) | 255 << 0) }, // 0xFFFFFF
+    { LSR_RED,      ((255 << 16) | (  0 << 8) |   0 << 0) },
+    { LSR_GREEN,    ((  0 << 16) | (255 << 8) |   0 << 0) },
+    { LSR_BLUE,     ((  0 << 16) | (  0 << 8) | 255 << 0) },
+    { LSR_DARKGREY, (( 80 << 16) | ( 80 << 8) |  80 << 0) },
+  };
+
+  inline const std::map<BaseColour, string> ColourToName {
+    {BaseColour::Black, "black"},
+    {BaseColour::White, "white"},
+  };
 
   /** @brief Returns brightness/intensity-adjusted `Colour`.
    * To darken by 50%, pass _0.5f_, to lighten by 25%, pass _1.25f_,
@@ -80,7 +105,7 @@ namespace lsr::colour {
    * @param Source/reference #Colour.
    * @param Adjustment factor.
    */
-  // TODO: ctor accepting normalised factor ([0-1])
+  // TODO: ctor accepting normalised factor ([-1 - 1])
   inline Colour brightnessAdjusted(const Colour &c, float factor) {
     return {
       static_cast<uint16_t>(clamp(c.r * factor, 0.0f, (float)c.a)),
@@ -90,20 +115,11 @@ namespace lsr::colour {
     };
   }
 
-  inline const std::map<std::string_view, ulong> BaseColourMap {
-    { "black",    ((255 << 16) | (0 << 8)   | 0 << 0)   }, // 0x000000
-    { "white",    ((255 << 16) | (255 << 8) | 255 << 0) }, // 0xFFFFFF
-
-    { "red",      ((255 << 16) | (0 << 8)   | 0)   },
-    { "green",    ((0 << 16)   | (255 << 8) | 0)   },
-    { "blue",     ((0 << 16)   | (0 << 8)   | 255) },
-
-    { "darkgrey", ((80 << 16) | (80 << 8) | 80) },
-  };
-
-  inline const bool ColourValid(std::string_view name) {
-    if (BaseColourMap.contains(name)) return true;
-    return false;
+  inline const uint16_t GetNamed(string& colour) {
+    if (NamedColour.contains(colour))
+      return NamedColour.at(colour);
+    // TODO: report & handle error
+    return 0;
   }
 
 } // NS colour

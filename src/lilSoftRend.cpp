@@ -55,8 +55,8 @@ Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
 
   Window w = XCreateSimpleWindow(disp, *parent, px, py, width, height,
                                  border,
-                                 BaseColourMap.at("black"),
-                                 BaseColourMap.at("darkgrey"));
+                                 NamedColour.at("black"),
+                                 NamedColour.at("darkgrey"));
 
   if (title) XStoreName(disp, w, title); // set title if provided
   _windows_count++;
