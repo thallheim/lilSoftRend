@@ -4,6 +4,7 @@
 
 #include "../include/lilSoftRend.hpp"
 #include "enums.hpp"
+#include "types/colour.hpp"
 
 using namespace lsr;
 using std::print;
@@ -43,18 +44,21 @@ Screen* Renderer::GetScreen(int scr) {
 Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
                               uint width, uint height, uint border_width,
                               ulong border, ulong background, const char *title) {
+  using namespace lsr::colour;
+
   if (!display) {
     print(stderr, "ERROR: {}: No display connection active.\n", __FUNCTION__);
     // TODO: error handling
   }
 
-  int cblack = BlackPixel(disp, DefaultScreen(disp));
-  int cwhite = WhitePixel(disp, DefaultScreen(disp));
-  Screen *scr = XScreenOfDisplay(disp, 0);
-  GC gc = scr->default_gc;
+  GC gc = screen->default_gc;
 
+  // Window w = XCreateSimpleWindow(disp, *parent, px, py, width, height,
+  //                                border, cblack, cblack);
   Window w = XCreateSimpleWindow(disp, *parent, px, py, width, height,
-                                 border, cblack, cblack);
+                                 border,
+                                 BaseColourMap.at("black"),
+                                 BaseColourMap.at("darkgrey"));
 
   if (title) XStoreName(disp, w, title); // set title if provided
   _windows_count++;

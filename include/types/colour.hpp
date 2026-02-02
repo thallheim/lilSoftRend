@@ -3,6 +3,7 @@
 #include <X11/Xlib.h>
 #include <algorithm>
 #include <cstdint>
+#include <map>
 #include <stdexcept>
 #include "../enums.hpp"
 
@@ -51,7 +52,6 @@ struct Colour {
     xcol.red   = scaleUp(r);
     xcol.green = scaleUp(g);
     xcol.blue  = scaleUp(b);
-    xcol.pixel = scaleUp(a); // FIXME: wrong
     xcol.flags = DoRed | DoGreen | DoBlue;
 
     return xcol;
@@ -90,16 +90,13 @@ namespace lsr::colour {
     };
   }
 
+  inline const std::map<std::string_view, ulong> BaseColourMap {
+    {"red",   ((255 << 16) | (0 << 8) | 0) }, // 0xFF0000
+    {"green", ((0 << 16) | (255 << 8) | 0) }, // 0x00FF00
+    {"blue",  ((0 << 16) | (0 << 8) | 255) }, // 0x0000FF
 
-static Colour BaseColour[] = {
-  { 0  , 0  , 0  , 255 }, // black
-  { 255, 255, 255, 255 }, // white
-  { 255, 0  , 0  , 255 }, // red
-  { 0  , 255, 0  , 255 }, // green
-  { 0  , 0  , 255, 255 }, // blue
+    {"darkgrey",  (80 << 16) | (80 << 8) | 80 },
+  };
 
-  { 18 , 18 , 18 , 255 }, // grey
-  { 80 , 80 , 80 , 255 }, // dark grey
-};
 
 } // NS colour
