@@ -94,9 +94,13 @@ namespace lsr::colour {
     { LSR_DARKGREY, (( 80 << 16) | ( 80 << 8) |  80 << 0) },
   };
 
-  inline const std::map<BaseColour, string> ColourToName {
-    {BaseColour::Black, "black"},
-    {BaseColour::White, "white"},
+  inline const std::map<BaseColour, string> ColourToString {
+    {BaseColour::Black,    LSR_BLACK},
+    {BaseColour::White,    LSR_WHITE},
+    {BaseColour::Red,      LSR_RED},
+    {BaseColour::Green,    LSR_GREEN},
+    {BaseColour::Blue,     LSR_BLUE},
+    {BaseColour::DarkGrey, LSR_DARKGREY},
   };
 
   /** @brief Returns brightness/intensity-adjusted `Colour`.
@@ -105,14 +109,21 @@ namespace lsr::colour {
    * @param Source/reference #Colour.
    * @param Adjustment factor.
    */
-  // TODO: ctor accepting normalised factor ([-1 - 1])
   inline Colour brightnessAdjusted(const Colour &c, float factor) {
+    // TODO: ctor accepting normalised factor ([-1 - 1])
     return {
       static_cast<uint16_t>(clamp(c.r * factor, 0.0f, (float)c.a)),
       static_cast<uint16_t>(clamp(c.g * factor, 0.0f, (float)c.a)),
       static_cast<uint16_t>(clamp(c.b * factor, 0.0f, (float)c.a)),
       static_cast<uint16_t>(c.a)
     };
+  }
+
+  inline const uint16_t GetNamed(BaseColour colour) {
+    if (NamedColour.contains(ColourToString.at(colour)))
+      return NamedColour.at(ColourToString.at(colour));
+    // TODO: report & handle error
+    return 0;
   }
 
   inline const uint16_t GetNamed(string& colour) {
