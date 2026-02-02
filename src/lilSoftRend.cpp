@@ -27,7 +27,7 @@ bool Renderer::ConnectDefaultDisplay() {
 
   if (display) return true;
   else {
-    print(stderr, "ERROR: Failed: Connect to display.\n");
+    print(stderr, "ERROR: Failed: {}.\n", __FUNCTION__);
     return false;
   }
 }
@@ -53,8 +53,6 @@ Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
 
   GC gc = screen->default_gc;
 
-  // Window w = XCreateSimpleWindow(disp, *parent, px, py, width, height,
-  //                                border, cblack, cblack);
   Window w = XCreateSimpleWindow(disp, *parent, px, py, width, height,
                                  border,
                                  BaseColourMap.at("black"),
@@ -66,8 +64,20 @@ Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
 }
 
 Window Renderer::CreateWindow(Display *disp, Window *parent, const char *title) {
+  using namespace lsr::colour;
   // TODO: un-hardcode dimensions: stuff into fields somewhere.
   // TODO: if not root, maybe grab pX & pY from parent window?
+  return CreateWindow(disp, parent, 0, 0, 800, 600,
+                      0, 0x000000, 0x000000, title);
+}
+
+Window Renderer::CreateWindow(Display *disp, Window *parent,
+                              BaseColour bgcolour, BaseColour fgcolour,
+                              const char *title) {
+  // TODO: un-hardcode dimensions: stuff into fields somewhere.
+  // TODO: if not root, maybe grab pX & pY from parent window?
+
+  if (BaseColourMap.contains(bgcolor)
   return CreateWindow(disp, parent, 0, 0, 800, 600,
                       0, 0x000000, 0x000000, title);
 }

@@ -12,6 +12,8 @@ using uchar = unsigned char;
 using uint  = unsigned int;
 using ulong = unsigned long;
 
+using namespace lsr::colour;
+
 namespace lsr {
 
 struct Renderer {
@@ -36,6 +38,10 @@ struct Renderer {
 
   Window CreateWindow(Display *disp, Window *parent, const char *title = NULL);
 
+  Window CreateWindow(Display *disp, Window *parent,
+                      BaseColour bgcolour, BaseColour fgcolour,
+                      const char *title = NULL);
+
   const char* GetError() const;
   void        ClearError();
 
@@ -44,11 +50,6 @@ struct Renderer {
    * Called by Renderer constructor.
    */
   bool Init();
-
-  /** Connect to default X11 server/Display.
-   * Called by Init().
-   */
-  bool ConnectDefaultDisplay();
 
   /** @brief Ptr to Screen `scr`. Returns NULL on failure. */
   Screen *GetScreen(int scr);
@@ -62,6 +63,12 @@ struct Renderer {
 
 private:
   size_t _windows_count = 0;
+
+  /** Connect to default X11 server/Display.
+   * Called by Init().
+   */
+  bool ConnectDefaultDisplay();
+
 
   }; // Renderer
 
