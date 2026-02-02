@@ -91,16 +91,19 @@ namespace lsr::colour {
   }
 
   inline const std::map<std::string_view, ulong> BaseColourMap {
-    {"black",   ((255 << 16) | (0 << 8) | 0) },     // 0x000000
-    {"white",   ((255 << 16) | (255 << 8) | 255) }, // 0xFFFFFF
+    { "black",    ((255 << 16) | (0 << 8)   | 0 << 0)   }, // 0x000000
+    { "white",    ((255 << 16) | (255 << 8) | 255 << 0) }, // 0xFFFFFF
 
-    {"red",   ((255 << 16) | (0 << 8) | 0) }, // 0xFF0000
-    {"green", ((0 << 16) | (255 << 8) | 0) }, // 0x00FF00
-    {"blue",  ((0 << 16) | (0 << 8) | 255) }, // 0x0000FF
+    { "red",      ((255 << 16) | (0 << 8)   | 0)   },
+    { "green",    ((0 << 16)   | (255 << 8) | 0)   },
+    { "blue",     ((0 << 16)   | (0 << 8)   | 255) },
 
-    {"darkgrey",  ((80 << 16) | (80 << 8) | 80) },
+    { "darkgrey", ((80 << 16) | (80 << 8) | 80) },
   };
 
-  // inline const bool
+  inline const bool ColourValid(std::string_view name) {
+    if (BaseColourMap.contains(name)) return true;
+    return false;
+  }
 
 } // NS colour

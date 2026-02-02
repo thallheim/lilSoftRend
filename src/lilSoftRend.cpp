@@ -77,7 +77,7 @@ Window Renderer::CreateWindow(Display *disp, Window *parent,
   // TODO: un-hardcode dimensions: stuff into fields somewhere.
   // TODO: if not root, maybe grab pX & pY from parent window?
 
-  if (BaseColourMap.contains(bgcolor)
+  // if (BaseColourMap.contains(bgcolor)
   return CreateWindow(disp, parent, 0, 0, 800, 600,
                       0, 0x000000, 0x000000, title);
 }
