@@ -18,6 +18,7 @@ bool Renderer::Init() {
     return false;
   }
 
+  contexts.emplace("default", screen->default_gc); // add default GC
   return true;
 }
 
@@ -51,7 +52,7 @@ Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
     // TODO: error handling
   }
 
-  GC gc = screen->default_gc;
+
 
   Window w = XCreateSimpleWindow(disp, *parent, px, py, width, height,
                                  border,

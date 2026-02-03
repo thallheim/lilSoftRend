@@ -21,20 +21,14 @@ using std::print;
 
 int main()
 {
-  // Open display
-  lsr::Renderer r;
-  Colour c(255, 0, 0, 255);
+  lsr::Renderer r; // Init renderer
 
-  // Get some colors
-  int cblack = BlackPixel(r.display, DefaultScreen(r.display));
-  int cwhite = WhitePixel(r.display, DefaultScreen(r.display));
-
-  // Create the window
   Window win = XCreateSimpleWindow(
       r.display, DefaultRootWindow(r.display), 0, 0, W_WIDTH, W_HEIGHT, 0,
       0x0, // border colour - hardcoded for now (along with 0 border width)
       NamedColour.at(ColourToString.at(BaseColour::Black)));
 
+  // Create a window
   Window win2 = r.CreateWindow(r.display, &DefaultRootWindow(r.display),
                                BaseColour::Black, BaseColour::Red, "Woo");
 
@@ -51,8 +45,10 @@ int main()
   GC gc2 = XCreateGC(r.display, win2, 0, NULL);
 
   // Tell the GC we draw using the white color
-  XSetForeground(r.display, gc, cwhite);
-  XSetForeground(r.display, gc2, cwhite);
+  XSetForeground(r.display, gc,
+                 NamedColour.at(ColourToString.at(BaseColour::White)));
+  XSetForeground(r.display, gc2,
+                 NamedColour.at(ColourToString.at(BaseColour::White)));
 
   // Wait for the MapNotify event
   for(;;) {

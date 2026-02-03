@@ -11,6 +11,7 @@
 using uchar = unsigned char;
 using uint  = unsigned int;
 using ulong = unsigned long;
+using std::map;
 
 using namespace lsr::colour;
 
@@ -23,6 +24,7 @@ struct Renderer {
   Display         *display  = NULL;
   Screen          *screen   = NULL;
   Window          **windows = NULL;
+  map<string, GC> contexts;
 
   Renderer() { Init(); }
 
