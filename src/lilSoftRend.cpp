@@ -1,10 +1,9 @@
+#include "enums.hpp"
+#include "types.hpp"
+#include <lilSoftRend.hpp>
+#include <print>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <print>
-
-#include "../include/lilSoftRend.hpp"
-#include "enums.hpp"
-#include "types/colour.hpp"
 
 using namespace lsr;
 using std::print;
@@ -19,6 +18,7 @@ bool Renderer::Init() {
   }
 
   contexts.emplace("default", screen->default_gc); // add default GC
+
   return true;
 }
 
@@ -40,6 +40,11 @@ Screen* Renderer::GetScreen(int scr) {
     return NULL;
   }
   return XScreenOfDisplay(display, scr);
+}
+
+Window *Renderer::GetWindow(int w) {
+  if (w >= _windows_count-1) return NULL;
+  return windows[w];
 }
 
 Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,

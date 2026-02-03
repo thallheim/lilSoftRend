@@ -56,6 +56,8 @@ struct Renderer {
   /** @brief Ptr to Screen `scr`. Returns NULL on failure. */
   Screen *GetScreen(int scr);
 
+  Window* GetWindow(int w);
+
   /** @brief Ptr to default Screen of Display `dsp`.
    * Returns NULL on failure.
    */
