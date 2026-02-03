@@ -1,5 +1,7 @@
 #include "../include/lilSoftRend.hpp"
 #include "../include/input.hpp"
+#include "enums.hpp"
+#include "types/colour.hpp"
 #include <stdexcept>
 #include <unistd.h>
 
@@ -28,10 +30,13 @@ int main()
   int cwhite = WhitePixel(r.display, DefaultScreen(r.display));
 
   // Create the window
-  Window win = XCreateSimpleWindow(r.display, DefaultRootWindow(r.display),
-                                   0, 0, W_WIDTH, W_HEIGHT, 0, cblack, cblack);
+  Window win = XCreateSimpleWindow(
+      r.display, DefaultRootWindow(r.display), 0, 0, W_WIDTH, W_HEIGHT, 0,
+      0x0, // border colour - hardcoded for now (along with 0 border width)
+      NamedColour.at(ColourToString.at(BaseColour::Black)));
 
-  Window win2 = r.CreateWindow(r.display, &DefaultRootWindow(r.display), "Woo");
+  Window win2 = r.CreateWindow(r.display, &DefaultRootWindow(r.display),
+                               BaseColour::Black, BaseColour::Red, "Woo");
 
   // Select MapNotify events
   XSelectInput(r.display, win, StructureNotifyMask);
