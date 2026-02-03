@@ -64,22 +64,20 @@ Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
 }
 
 Window Renderer::CreateWindow(Display *disp, Window *parent, const char *title) {
-  using namespace lsr::colour;
-  // TODO: un-hardcode dimensions: stuff into fields somewhere.
-  // TODO: if not root, maybe grab pX & pY from parent window?
-  return CreateWindow(disp, parent, 0, 0, 800, 600,
-                      0, 0x000000, 0x000000, title);
+  return CreateWindow(disp, parent, 0, 0, 800, 600, 0,
+                      0x000000, // border colour
+                      GetColour(BaseColour::Black), title);
 }
 
 Window Renderer::CreateWindow(Display *disp, Window *parent,
                               BaseColour bgcolour, BaseColour fgcolour,
                               const char *title) {
-  // TODO: un-hardcode dimensions: stuff into fields somewhere.
+  // TODO: un-hardcode dimensions: grab defaults from somewhere
   // TODO: if not root, maybe grab pX & pY from parent window?
-
-  // if (BaseColourMap.contains(bgcolor)
-  return CreateWindow(disp, parent, 0, 0, 800, 600,
-                      0, 0x000000, 0x000000, title);
+  // TODO: un-hardcode border width & colour
+  return CreateWindow(disp, parent, 0, 0, 800, 600, 0,
+                      0x0, // border colour
+                      GetColour(bgcolour), title);
 }
 
 const char* Renderer::GetError() const {

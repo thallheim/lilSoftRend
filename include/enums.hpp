@@ -27,6 +27,7 @@ enum class BaseColour : uint32_t {
   DarkGrey,
 };
 
+  // FIXME: why 8? should've been size_t
   enum class Channel : uint8_t { a = 0, r, g, b };
 
 } // NS colour

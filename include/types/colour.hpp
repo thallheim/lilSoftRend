@@ -78,6 +78,10 @@ struct Colour {
 
 namespace lsr::colour {
 
+// These are lsr's predefined/named "base" colours.
+// The "LSR_" strings are used as indices (and to minimise
+// repitition). See getter fns below.
+
   const string LSR_BLACK    {"black"};
   const string LSR_WHITE    {"white"};
   const string LSR_RED      {"red"};
@@ -119,14 +123,14 @@ namespace lsr::colour {
     };
   }
 
-  inline const uint16_t GetNamed(BaseColour colour) {
+  inline const uint16_t GetColour(BaseColour colour) {
     if (NamedColour.contains(ColourToString.at(colour)))
       return NamedColour.at(ColourToString.at(colour));
     // TODO: report & handle error
     return 0;
   }
 
-  inline const uint16_t GetNamed(string& colour) {
+  inline const uint16_t GetColourS(string& colour) {
     if (NamedColour.contains(colour))
       return NamedColour.at(colour);
     // TODO: report & handle error
