@@ -1,9 +1,12 @@
-#include "../include/lilSoftRend.hpp"
 #include "../include/input.hpp"
 #include "enums.hpp"
-#include "types/colour.hpp"
+#include "types.hpp"
+#include <lilSoftRend.hpp>
+#include <map>
+#include <print>
 #include <stdexcept>
 #include <unistd.h>
+#include <X11/Xlib.h>
 
 
 #define W_WIDTH    800
@@ -11,10 +14,6 @@
 #define TARGET_FPS 60
 
 
-#include <print>
-#include <map>
-#include <unistd.h>
-#include <X11/Xlib.h>
 
 // using namespace lsr;
 using std::print;
@@ -42,12 +41,12 @@ int main()
 
   // Create graphics ctx
   GC gc = XCreateGC(r.display, win, 0, NULL);
-  GC gc2 = XCreateGC(r.display, win2, 0, NULL);
+  // GC gc2 = XCreateGC(r.display, win2, 0, NULL);
 
   // Tell the GC we draw using the white color
   XSetForeground(r.display, gc,
                  NamedColour.at(ColourToString.at(BaseColour::White)));
-  XSetForeground(r.display, gc2,
+  XSetForeground(r.display, r.contexts.at("default"),
                  NamedColour.at(ColourToString.at(BaseColour::White)));
 
   // Wait for the MapNotify event
@@ -60,7 +59,7 @@ int main()
 
   // Draw the line
   XDrawLine(r.display, win, gc, 10, 60, 180, 20);
-  XDrawLine(r.display, win2, gc2, 20, 70, 180, 20);
+  XDrawLine(r.display, win2, r.contexts.at("default"), 10, 60, 180, 20);
 
   // Send the "DrawLine" request to the server
   XFlush(r.display);
