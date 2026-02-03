@@ -54,7 +54,7 @@ struct Renderer {
   bool Init();
 
   /** @brief Ptr to Screen `scr`. Returns NULL on failure. */
-  Screen *GetScreen(int scr);
+  Screen* GetScreen(int scr);
 
   Window* GetWindow(int w);
 

@@ -43,7 +43,10 @@ Screen* Renderer::GetScreen(int scr) {
 }
 
 Window *Renderer::GetWindow(int w) {
-  if (w >= _windows_count-1) return NULL;
+  if (w >= _windows_count-1) {
+    print(stderr, "ERROR: {}: Window ID out of range.\n", __FUNCTION__);
+    return NULL;
+  }
   return windows[w];
 }
 
