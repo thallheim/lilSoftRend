@@ -19,19 +19,29 @@ using namespace lsr::colour;
 namespace lsr {
 
 struct Renderer {
-  lsr::ErrorKind  ekind;
-  const char      *emsg = NULL;
+  lsr::ErrorKind        ekind;
+  const char            *emsg = NULL;
+  Display               *display  = NULL;
+  Screen                *screen   = NULL;
+  Window                **windows = NULL;
+  GC                    *contexts[256] {0}; // GC store
 
-  Display         *display  = NULL;
-  Screen          *screen   = NULL;
-  Window          **windows = NULL;
-  map<string, GC> contexts;
+private:
+  size_t                _windows_count = 0;
+  size_t                _errors_count = 0;
+  map<size_t, string>   _contextIDs;         // map<GC store idx, GC name>
 
+  /** Connect to default X11 server/Display.
+   * Called by Init().
+   */
+  bool ConnectDefaultDisplay();
+
+public:
   Renderer() { Init(); }
 
   ~Renderer() {
     int i;
-    for (i = 0; i < sizeof(_windows_count) / sizeof(windows[0]); ++i)
+    for (i = 0; i < sizeof(windows) / sizeof(windows[0]); ++i)
       XDestroyWindow(display, *windows[i]);
     delete[] windows;
   }
@@ -67,14 +77,6 @@ struct Renderer {
   static Visual*  GetDefaultVisual(Screen* scr);
   static Colormap GetDefaultColourmap(Screen* scr);
 
-private:
-  size_t _windows_count = 0;
-  size_t _errors_count = 0;
-
-  /** Connect to default X11 server/Display.
-   * Called by Init().
-   */
-  bool ConnectDefaultDisplay();
 
 
   }; // Renderer
