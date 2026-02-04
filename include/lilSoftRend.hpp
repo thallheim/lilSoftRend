@@ -3,6 +3,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysymdef.h>
+#include <print>
 
 #include "../include/windowing.hpp"
 #include "../include/types.hpp"
@@ -29,7 +30,8 @@ struct Renderer {
   Renderer() { Init(); }
 
   ~Renderer() {
-    for (int i = 0; i < sizeof(_windows_count) / sizeof(windows[0]); ++i)
+    int i;
+    for (i = 0; i < sizeof(_windows_count) / sizeof(windows[0]); ++i)
       XDestroyWindow(display, *windows[i]);
     delete[] windows;
   }
@@ -67,6 +69,7 @@ struct Renderer {
 
 private:
   size_t _windows_count = 0;
+  size_t _errors_count = 0;
 
   /** Connect to default X11 server/Display.
    * Called by Init().
