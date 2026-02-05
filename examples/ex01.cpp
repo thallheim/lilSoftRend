@@ -28,16 +28,16 @@ int main()
       NamedColour.at(ColourToString.at(BaseColour::Black)));
 
   // Create a window
-  Window win2 = r.CreateWindow(r.display, &DefaultRootWindow(r.display),
-                               BaseColour::Black, BaseColour::Red, "Woo");
+  r.CreateWindow(r.display, &DefaultRootWindow(r.display),
+                 BaseColour::Black, BaseColour::Red, "Hey", "Woo");
 
   // Select MapNotify events
   XSelectInput(r.display, win, StructureNotifyMask);
-  XSelectInput(r.display, win2, StructureNotifyMask);
+  XSelectInput(r.display, r.windows.at(r._winname_to_idx.at("Hey")), StructureNotifyMask);
 
   // Map window
   XMapWindow(r.display, win);
-  XMapWindow(r.display, win2);
+  XMapWindow(r.display, r.windows.at(r._winname_to_idx.at("Hey")));
 
   // Create graphics ctx
   GC gc = XCreateGC(r.display, win, 0, NULL);

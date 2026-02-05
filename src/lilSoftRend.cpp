@@ -4,6 +4,7 @@
 #include <print>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <stdexcept>
 
 using namespace lsr;
 using std::print;
@@ -42,17 +43,20 @@ Screen* Renderer::GetScreen(int scr) {
   return XScreenOfDisplay(display, scr);
 }
 
-Window *Renderer::GetWindow(int w) {
-  if (w >= _windows_count-1) {
-    print(stderr, "ERROR: {}: Window ID out of range.\n", __FUNCTION__);
-    return NULL;
+Window Renderer::GetWindow(int w) {
+  if (win_info.empty() || w > win_info.size() - 1) {
+    const auto emsg = string("Bad Window ID: {}", w);
+    print(stderr, "ERROR: {}: Window ID out of range ({}).\n", __FUNCTION__, w);
+    std::out_of_range(emsg.c_str());
   }
-  return windows[w];
+
+  return windows.at(w);
 }
 
-Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
+void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
                               uint width, uint height, uint border_width,
-                              ulong border, ulong background, const char *title) {
+                            ulong border, ulong background, string& name,
+                            const char *title) {
   using namespace lsr::colour;
 
   if (!display) {
@@ -64,29 +68,34 @@ Window Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
 
   Window w = XCreateSimpleWindow(disp, *parent, px, py, width, height,
                                  border,
-                                 NamedColour.at("black"),
-                                 NamedColour.at("darkgrey"));
+                                 0x0, // border colour
+                                 background);
 
   if (title) XStoreName(disp, w, title); // set title if provided
-  _windows_count++;
-  return w;
+
+  win_info.emplace_back(WinInfo(name, title, win_info.size()));
+  _winname_to_idx.emplace(name, _winname_to_idx.size());
+  // TODO: don't throw?
+  if (_winname_to_idx.size() != win_info.size())
+    throw std::runtime_error("WinInfo vec & Window idx map size mismatch");
 }
 
-Window Renderer::CreateWindow(Display *disp, Window *parent, const char *title) {
-  return CreateWindow(disp, parent, 0, 0, 800, 600, 0,
-                      0x000000, // border colour
-                      GetColour(BaseColour::Black), title);
+void Renderer::CreateWindow(Display *disp, Window *parent, string &name,
+                            const char *title) {
+  CreateWindow(disp, parent, 0, 0, 800, 600, 0,
+               0x000000, // border colour
+               GetColour(BaseColour::Black), name, title);
 }
 
-Window Renderer::CreateWindow(Display *disp, Window *parent,
-                              BaseColour bgcolour, BaseColour fgcolour,
-                              const char *title) {
+void Renderer::CreateWindow(Display *disp, Window *parent, BaseColour bgcolour,
+                            BaseColour fgcolour, string &name,
+                            const char *title) {
   // TODO: un-hardcode dimensions: grab defaults from somewhere
   // TODO: if not root, maybe grab pX & pY from parent window?
   // TODO: un-hardcode border width & colour
-  return CreateWindow(disp, parent, 0, 0, 800, 600, 0,
-                      0x0, // border colour
-                      GetColour(bgcolour), title);
+  CreateWindow(disp, parent, 0, 0, 800, 600, 0,
+               0x0, // border colour
+               GetColour(bgcolour), name, title);
 }
 
 const char* Renderer::GetError() const {
@@ -95,6 +104,14 @@ const char* Renderer::GetError() const {
 }
 
 void Renderer::ClearError() { emsg = NULL; ekind = ErrorKind::NONE; }
+
+Window Renderer::GetWindowByName(const char* name) {
+  for (auto wi : win_info) {
+    if (wi.name == name) return windows.at(_winname_to_idx.at(name));
+  }
+  print(stderr, "ERROR: {}: No alive window named '{}'.\n", name, __FUNCTION__);
+  return 0;
+}
 
 Screen* Renderer::GetDefaultScreen(Display* dsp) {
   return XDefaultScreenOfDisplay(dsp);
