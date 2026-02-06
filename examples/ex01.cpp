@@ -32,6 +32,7 @@ int main()
                  BaseColour::Black, BaseColour::Red, "Hey", "Woo");
 
   // Select MapNotify events
+  // TODO: XSelectinput() wrapper
   XSelectInput(r.display, win, StructureNotifyMask);
   XSelectInput(r.display, r.windows.at(r._winname_to_idx.at("Hey")), StructureNotifyMask);
 
@@ -44,9 +45,10 @@ int main()
   // GC gc2 = XCreateGC(r.display, win2, 0, NULL);
 
   // Tell the GC we draw using the white color
+  // TODO: XSetForeground() wrapper
   XSetForeground(r.display, gc,
                  NamedColour.at(ColourToString.at(BaseColour::White)));
-  XSetForeground(r.display, r.contexts.at("default"),
+  XSetForeground(r.display, r.contexts[0],
                  NamedColour.at(ColourToString.at(BaseColour::White)));
 
   // Wait for the MapNotify event
@@ -58,8 +60,9 @@ int main()
   }
 
   // Draw the line
-  XDrawLine(r.display, win, gc, 10, 60, 180, 20);
-  XDrawLine(r.display, win2, r.contexts.at("default"), 10, 60, 180, 20);
+  // XDrawLine(r.display, win, gc, 10, 60, 180, 20);
+  // XDrawLine(r.display, win2, r.contexts[0], 10, 60, 180, 20);
+  XDrawLine(r.display, win, r.contexts[0], 10, 60, 180, 20);
 
   // Send the "DrawLine" request to the server
   XFlush(r.display);

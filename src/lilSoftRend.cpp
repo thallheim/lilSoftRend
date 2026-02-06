@@ -18,7 +18,7 @@ bool Renderer::Init() {
     return false;
   }
 
-  contexts.emplace("default", screen->default_gc); // add default GC
+  contexts[0] = screen->default_gc; // add default GC
 
   return true;
 }
@@ -55,7 +55,7 @@ Window Renderer::GetWindow(int w) {
 
 void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
                               uint width, uint height, uint border_width,
-                            ulong border, ulong background, string& name,
+                            ulong border, ulong background, string name,
                             const char *title) {
   using namespace lsr::colour;
 
@@ -80,7 +80,7 @@ void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
     throw std::runtime_error("WinInfo vec & Window idx map size mismatch");
 }
 
-void Renderer::CreateWindow(Display *disp, Window *parent, string &name,
+void Renderer::CreateWindow(Display *disp, Window *parent, string name,
                             const char *title) {
   CreateWindow(disp, parent, 0, 0, 800, 600, 0,
                0x000000, // border colour
@@ -88,7 +88,7 @@ void Renderer::CreateWindow(Display *disp, Window *parent, string &name,
 }
 
 void Renderer::CreateWindow(Display *disp, Window *parent, BaseColour bgcolour,
-                            BaseColour fgcolour, string &name,
+                            BaseColour fgcolour, string name,
                             const char *title) {
   // TODO: un-hardcode dimensions: grab defaults from somewhere
   // TODO: if not root, maybe grab pX & pY from parent window?

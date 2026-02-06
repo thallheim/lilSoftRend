@@ -73,14 +73,14 @@ public:
 
   void CreateWindow(Display *disp, Window *parent, int px, int py, uint width,
                     uint height, uint border_width, ulong border,
-                    ulong background, string &name,
+                    ulong background, string name,
                     const char *title = NULL);
 
-  void CreateWindow(Display *disp, Window *parent, string &name,
+  void CreateWindow(Display *disp, Window *parent, string name,
                     const char *title = NULL);
 
   void CreateWindow(Display *disp, Window *parent, BaseColour bgcolour,
-                    BaseColour fgcolour, string &name,
+                    BaseColour fgcolour, string name,
                     const char *title = NULL);
 
   const char* GetError() const;
