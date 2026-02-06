@@ -41,6 +41,7 @@ int main()
   XMapWindow(r.display, r.windows.at(r._winname_to_idx.at("Hey")));
 
   // Create graphics ctx
+  // TODO: XCreateGC() wrapper
   GC gc = XCreateGC(r.display, win, 0, NULL);
   // GC gc2 = XCreateGC(r.display, win2, 0, NULL);
 
