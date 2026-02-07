@@ -34,22 +34,23 @@ int main()
   // Select MapNotify events
   // TODO: XSelectinput() wrapper
   XSelectInput(r.display, win, StructureNotifyMask);
-  XSelectInput(r.display, r.windows.at(r._winname_to_idx.at("Hey")), StructureNotifyMask);
+  XSelectInput(r.display, r.windows.at(r._winname2idx.at("Hey")), StructureNotifyMask);
 
   // Map window
   XMapWindow(r.display, win);
-  XMapWindow(r.display, r.windows.at(r._winname_to_idx.at("Hey")));
+  XMapWindow(r.display, r.windows.at(r._winname2idx.at("Hey")));
 
   // Create graphics ctx
   // TODO: XCreateGC() wrapper
   GC gc = XCreateGC(r.display, win, 0, NULL);
   // GC gc2 = XCreateGC(r.display, win2, 0, NULL);
+  r.NewGC("test", r.GetWindowByName("Hey"));
 
   // Tell the GC we draw using the white color
   // TODO: XSetForeground() wrapper
   XSetForeground(r.display, gc,
                  NamedColour.at(ColourToString.at(BaseColour::White)));
-  XSetForeground(r.display, r.contexts[0],
+  XSetForeground(r.display, r.contexts[r._winname2idx.at("default")],
                  NamedColour.at(ColourToString.at(BaseColour::White)));
 
   // Wait for the MapNotify event

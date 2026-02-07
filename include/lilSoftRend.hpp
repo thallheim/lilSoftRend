@@ -45,16 +45,18 @@ struct WinInfo {
 struct Renderer {
   lsr::ErrorKind       ekind;
   const char           *emsg     = NULL;
+
   Display              *display  = NULL;
   Screen               *screen   = NULL;
   vector<WinInfo>      win_info;
   vector<Window>       windows;
   GC                   contexts[LSR_MAX_CONTEXTS] {0};
-  unordered_map<string, size_t> _winname_to_idx; // TODO: REMOVE - use WinInfo
+  size_t               ctx_count = 0;
+  unordered_map<string, size_t> _winname2idx; // TODO: REMOVE - use WinInfo
 
 private:
   size_t                        _errors_count = 0;
-  map<size_t, string>           _contextIDs; // <GC store idx, GC name>
+  map<string, size_t>           _contextIDs; // <GC name, idx>
 
   /** Connect to default X11 server/Display.
    * Called by Init().
@@ -82,6 +84,8 @@ public:
   void CreateWindow(Display *disp, Window *parent, BaseColour bgcolour,
                     BaseColour fgcolour, string name,
                     const char *title = NULL);
+
+  void NewGC(const char* name, Drawable drw, Display* dsp = NULL);
 
   const char* GetError() const;
   void        ClearError();

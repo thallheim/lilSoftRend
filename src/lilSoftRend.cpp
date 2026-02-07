@@ -10,7 +10,10 @@ using namespace lsr;
 using std::print;
 
 bool Renderer::Init() {
-  ConnectDefaultDisplay();
+  if (!ConnectDefaultDisplay()) {
+    print(stderr, "ERROR: Init() failed: Couldn't connect to default Display.\n");
+    return false;
+  }
 
   screen = XDefaultScreenOfDisplay(display);
   if (!screen) {
@@ -19,6 +22,8 @@ bool Renderer::Init() {
   }
 
   contexts[0] = screen->default_gc; // add default GC
+  _winname2idx.emplace("default", contexts[0]);
+  ctx_count++;
 
   return true;
 }
@@ -26,12 +31,8 @@ bool Renderer::Init() {
 // TODO: throw, probably
 bool Renderer::ConnectDefaultDisplay() {
   display = XOpenDisplay(NULL);
-
   if (display) return true;
-  else {
-    print(stderr, "ERROR: Failed: {}.\n", __FUNCTION__);
-    return false;
-  }
+  return false;
 }
 
 Screen* Renderer::GetScreen(int scr) {
@@ -74,16 +75,16 @@ void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
   if (title) XStoreName(disp, w, title); // set title if provided
 
   win_info.emplace_back(WinInfo(name, title, win_info.size()));
-  _winname_to_idx.emplace(name, _winname_to_idx.size());
+  _winname2idx.emplace(name, _winname2idx.size());
   // TODO: don't throw?
-  if (_winname_to_idx.size() != win_info.size())
+  if (_winname2idx.size() != win_info.size())
     throw std::runtime_error("WinInfo vec & Window idx map size mismatch");
 }
 
 void Renderer::CreateWindow(Display *disp, Window *parent, string name,
                             const char *title) {
   CreateWindow(disp, parent, 0, 0, 800, 600, 0,
-               0x000000, // border colour
+               0x0, // border colour
                GetColour(BaseColour::Black), name, title);
 }
 
@@ -98,6 +99,12 @@ void Renderer::CreateWindow(Display *disp, Window *parent, BaseColour bgcolour,
                GetColour(bgcolour), name, title);
 }
 
+void Renderer::NewGC(const char *name, Drawable drw, Display *dsp) {
+  size_t i = _contextIDs.size();
+  contexts[i] = XCreateGC(dsp, drw, 0, NULL);
+  _contextIDs.emplace(name, i);
+}
+
 const char* Renderer::GetError() const {
   if (!emsg) return NULL;
   return emsg;
@@ -107,7 +114,7 @@ void Renderer::ClearError() { emsg = NULL; ekind = ErrorKind::NONE; }
 
 Window Renderer::GetWindowByName(const char* name) {
   for (auto wi : win_info) {
-    if (wi.name == name) return windows.at(_winname_to_idx.at(name));
+    if (wi.name == name) return windows.at(_winname2idx.at(name));
   }
   print(stderr, "ERROR: {}: No alive window named '{}'.\n", name, __FUNCTION__);
   return 0;
