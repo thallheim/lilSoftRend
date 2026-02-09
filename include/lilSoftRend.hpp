@@ -36,7 +36,7 @@ struct WinInfo {
   // WinInfo(string &name, const char *title, size_t v_idx, Window w)
   //   : name(name), title(title), v_idx(v_idx), _data(w) {}
 
-  WinInfo(string &name, const char *title, size_t v_idx)
+  WinInfo(const char* name, const char *title, size_t v_idx)
     : name(name), title(title), v_idx(v_idx) {}
 
 };
@@ -55,8 +55,8 @@ struct Renderer {
   unordered_map<string, size_t> _winname2idx; // TODO: REMOVE - use WinInfo
 
 private:
-  size_t                        _errors_count = 0;
-  map<string, size_t>           _contextIDs; // <GC name, idx>
+  size_t               _errors_count = 0;
+  map<string, size_t>  _contextIDs; // <GC name, idx>
 
   /** Connect to default X11 server/Display.
    * Called by Init().
@@ -75,14 +75,14 @@ public:
 
   void CreateWindow(Display *disp, Window *parent, int px, int py, uint width,
                     uint height, uint border_width, ulong border,
-                    ulong background, string name,
+                    ulong background, const char* name,
                     const char *title = NULL);
 
-  void CreateWindow(Display *disp, Window *parent, string name,
+  void CreateWindow(Display *disp, Window *parent, const char* name,
                     const char *title = NULL);
 
   void CreateWindow(Display *disp, Window *parent, BaseColour bgcolour,
-                    BaseColour fgcolour, string name,
+                    BaseColour fgcolour, const char* name,
                     const char *title = NULL);
 
   void NewGC(const char* name, Drawable drw, Display* dsp = NULL);

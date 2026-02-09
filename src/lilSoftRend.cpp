@@ -22,7 +22,8 @@ bool Renderer::Init() {
   }
 
   contexts[0] = screen->default_gc; // add default GC
-  _winname2idx.emplace("default", contexts[0]);
+  _winname2idx.emplace("default", (size_t)contexts[0]);
+  win_info.emplace_back(WinInfo("default", "@default@", win_info.size()));
   ctx_count++;
 
   return true;
@@ -56,7 +57,7 @@ Window Renderer::GetWindow(int w) {
 
 void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
                               uint width, uint height, uint border_width,
-                            ulong border, ulong background, string name,
+                            ulong border, ulong background, const char* name,
                             const char *title) {
   using namespace lsr::colour;
 
@@ -77,11 +78,13 @@ void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
   win_info.emplace_back(WinInfo(name, title, win_info.size()));
   _winname2idx.emplace(name, _winname2idx.size());
   // TODO: don't throw?
-  if (_winname2idx.size() != win_info.size())
+  if (_winname2idx.size() != win_info.size()) {
+    print(stderr, "ERROR: {}: WinInfo vec & Window idx map size mismatch ({} != {})\n", __FUNCTION__, _winname2idx.size(), win_info.size());
     throw std::runtime_error("WinInfo vec & Window idx map size mismatch");
+  }
 }
 
-void Renderer::CreateWindow(Display *disp, Window *parent, string name,
+void Renderer::CreateWindow(Display *disp, Window *parent, const char* name,
                             const char *title) {
   CreateWindow(disp, parent, 0, 0, 800, 600, 0,
                0x0, // border colour
@@ -89,7 +92,7 @@ void Renderer::CreateWindow(Display *disp, Window *parent, string name,
 }
 
 void Renderer::CreateWindow(Display *disp, Window *parent, BaseColour bgcolour,
-                            BaseColour fgcolour, string name,
+                            BaseColour fgcolour, const char* name,
                             const char *title) {
   // TODO: un-hardcode dimensions: grab defaults from somewhere
   // TODO: if not root, maybe grab pX & pY from parent window?
