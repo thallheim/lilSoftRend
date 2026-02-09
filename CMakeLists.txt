@@ -31,6 +31,8 @@ check_include_file("GLFW/glfw3.h" OPTIONAL GLFW_SYS)
 set(VENDOR_DIR ${CMAKE_SOURCE_DIR}/vendor)
 set(GLFW_DIR ${VENDOR_DIR}/glfw)
 set(GLFW_LIBRARY_TYPE STATIC)
+set(GLFW_BUILD_X11 ON)
+set(GLFW_BUILD_WAYLAND OFF)
 
 if(GLFW_SYS)
   message(STATUS "Using system GLFW headers")
@@ -44,7 +46,7 @@ else()
   endif()
   execute_process(COMMAND git clone https://github.com/glfw/glfw --depth=1
     WORKING_DIRECTORY ${VENDOR_DIR}
-    COMMAND_ECHO NONE # STDERR/STDOUT/NONE
+    COMMAND_ECHO STDOUT # STDERR/STDOUT/NONE
   )
 endif()
 

@@ -8,3 +8,4 @@ Eine kleine Software Renderer exercise.
 * [ ] Renderer error handlers
 * [ ] Renderer gc handling
   * [x] Renderer GC storage
+* [ ] Remove GLFW from X11 branch
