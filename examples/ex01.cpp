@@ -34,11 +34,15 @@ int main()
   // Select MapNotify events
   // TODO: XSelectinput() wrapper
   XSelectInput(r.display, win, StructureNotifyMask);
-  XSelectInput(r.display, r.windows.at(r._winname2idx.at("Hey")), StructureNotifyMask);
+  // FIXME: out of range
+  // XSelectInput(r.display, r.windows.at(r._winname2idx.at("Hey")), StructureNotifyMask);
+  // FIXME: assert !this->empty() fails
+  XSelectInput(r.display, r.windows.back(), StructureNotifyMask);
 
   // Map window
   XMapWindow(r.display, win);
   XMapWindow(r.display, r.windows.at(r._winname2idx.at("Hey")));
+
 
   // Create graphics ctx
   // TODO: XCreateGC() wrapper
