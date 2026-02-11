@@ -1,7 +1,7 @@
 #include "../include/input.hpp"
-#include "enums.hpp"
-#include "types.hpp"
-#include <lilSoftRend.hpp>
+#include "../include/enums.hpp"
+#include "../include/types.hpp"
+#include "../include/lilSoftRend.hpp"
 #include <map>
 #include <print>
 #include <stdexcept>
