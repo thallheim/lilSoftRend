@@ -8,4 +8,7 @@ Eine kleine Software Renderer exercise.
 * [ ] Renderer error handlers
 * [ ] Renderer gc handling
   * [x] Renderer GC storage
-* [ ] Remove GLFW from X11 branch
+### CMake
+  * [ ] Remove GLFW from X11 branch
+  * [ ] Ensure libx11
+  * [ ] Check for wayland
