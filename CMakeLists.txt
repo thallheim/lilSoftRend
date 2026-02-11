@@ -94,8 +94,9 @@ target_compile_definitions(lilSoftRend PRIVATE
 )
 ### LINKING ###################################
 
-message(STATUS "BUILD_GLFW is set to ${BUILD_GLFW}")
-message(STATUS "BUILD_X11 is set to ${BUILD_X11}")
+# TODO: remove - debug/dev
+# message(STATUS "BUILD_GLFW is set to ${BUILD_GLFW}")
+# message(STATUS "BUILD_X11 is set to ${BUILD_X11}")
 
 # target_link_libraries(lilSoftRend
 #   PRIVATE
