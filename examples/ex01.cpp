@@ -35,19 +35,23 @@ int main()
   // TODO: XSelectinput() wrapper
   XSelectInput(r.display, win, StructureNotifyMask);
   // FIXME: out of range
-  // XSelectInput(r.display, r.windows.back(), StructureNotifyMask);
-  XSelectInput(r.display, r.GetWindowByName("Hey"), StructureNotifyMask);
+  XSelectInput(r.display, r.windows.back(), StructureNotifyMask); // ok
+  // XSelectInput(r.display, r.GetWindowByName("Hey"), StructureNotifyMask); // crash
 
   // Map window
   XMapWindow(r.display, win);
-  XMapWindow(r.display, r.windows.at(r._winname2idx.at("Hey")));
+  XMapWindow(r.display, r.windows.back()); // ok
+  // XMapWindow(r.display, r.windows.at(r._winname2idx.at("Hey"))); // crash
 
 
   // Create graphics ctx
   // TODO: XCreateGC() wrapper
   GC gc = XCreateGC(r.display, win, 0, NULL);
   // GC gc2 = XCreateGC(r.display, win2, 0, NULL);
-  r.NewGC("test", r.GetWindowByName("Hey"));
+
+  // r.NewGC("test", r.GetWindowByName("Hey")); // crash
+  r.NewGC("test", r.windows.back()); // segfault
+
 
   // Tell the GC we draw using the white color
   // TODO: XSetForeground() wrapper
