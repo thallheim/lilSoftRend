@@ -103,9 +103,10 @@ void Renderer::CreateWindow(Display *disp, Window *parent, BaseColour bgcolour,
                GetColour(bgcolour), name, title);
 }
 
-void Renderer::NewGC(const char *name, Drawable drw, Display *dsp) {
+void Renderer::NewGC(const char *name, Drawable drw) {
   size_t i = _contextIDs.size();
-  contexts[i] = XCreateGC(dsp, drw, 0, NULL);
+  GC gc = XCreateGC(display, drw, 0, NULL);
+  contexts[i] = gc;
   _contextIDs.emplace(name, i);
 }
 

@@ -81,7 +81,7 @@ public:
                     BaseColour fgcolour, const char* name,
                     const char *title = NULL);
 
-  void NewGC(const char* name, Drawable drw, Display* dsp = NULL);
+  void NewGC(const char* name, Drawable drw);
 
   const char* GetError() const;
   void        ClearError();
