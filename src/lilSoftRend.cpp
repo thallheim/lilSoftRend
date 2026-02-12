@@ -77,6 +77,7 @@ void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
 
   win_info.emplace_back(WinInfo(name, title, win_info.size()));
   _winname2idx.emplace(name, _winname2idx.size());
+  windows.emplace_back(w);
   // TODO: don't throw?
   if (_winname2idx.size() != win_info.size()) {
     print(stderr, "ERROR: {}: WinInfo vec & Window idx map size mismatch ({} != {})\n", __FUNCTION__, _winname2idx.size(), win_info.size());

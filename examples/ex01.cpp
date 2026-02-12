@@ -35,9 +35,8 @@ int main()
   // TODO: XSelectinput() wrapper
   XSelectInput(r.display, win, StructureNotifyMask);
   // FIXME: out of range
-  // XSelectInput(r.display, r.windows.at(r._winname2idx.at("Hey")), StructureNotifyMask);
-  // FIXME: assert !this->empty() fails
-  XSelectInput(r.display, r.windows.back(), StructureNotifyMask);
+  // XSelectInput(r.display, r.windows.back(), StructureNotifyMask);
+  XSelectInput(r.display, r.GetWindowByName("Hey"), StructureNotifyMask);
 
   // Map window
   XMapWindow(r.display, win);

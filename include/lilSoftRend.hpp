@@ -21,8 +21,7 @@ using std::vector;
 
 using namespace lsr::colour;
 
-// TODO: probably shouldn't be #define. also: where to stick it?
-#define LSR_MAX_CONTEXTS 256
+static const uint LSR_MAX_CONTEXTS {512};
 
 
 namespace lsr {
@@ -32,9 +31,6 @@ struct WinInfo {
   const char*  title = NULL;
   size_t       v_idx; // Window's index in `windows` vector
   // Window       _data = NULL;
-
-  // WinInfo(string &name, const char *title, size_t v_idx, Window w)
-  //   : name(name), title(title), v_idx(v_idx), _data(w) {}
 
   WinInfo(const char* name, const char *title, size_t v_idx)
     : name(name), title(title), v_idx(v_idx) {}
