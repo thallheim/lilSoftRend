@@ -24,7 +24,7 @@ int main()
 
   Window win = XCreateSimpleWindow(
       r.display, DefaultRootWindow(r.display), 0, 0, W_WIDTH, W_HEIGHT, 0,
-      0x0, // border colour - hardcoded for now (along with 0 border width)
+      0x0, // border colour & width hardcoded for now
       NamedColour.at(ColourToString.at(BaseColour::Black)));
 
   // Create a window
