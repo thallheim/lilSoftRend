@@ -77,9 +77,8 @@ void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
   print(stderr, ":: DBG: WinInfo vec & Window vec sizes:  {} -  {}\n", windows.size(), win_info.size());
   win_info.emplace_back(WinInfo(name, title, win_info.size()));
   windows.emplace_back(w);
-  // _winname2idx.emplace(name, _winname2idx.size());
+
   // TODO: don't throw?
-  // TODO: use WinInfo instead
   if (windows.size() != win_info.size()) {
     print(stderr, "ERROR: {}: WinInfo vec & Window vec size mismatch ({} != {})\n", __FUNCTION__, windows.size(), win_info.size());
     throw std::runtime_error("WinInfo vec & Window vec size mismatch");
