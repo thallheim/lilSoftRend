@@ -54,9 +54,8 @@ struct Renderer {
 private:
   size_t               _errors_count = 0;
 
-  /** Connect to default X11 server/Display.
-   * Called by Init().
-   */
+  /** Connect to default X11 server/Display. */
+  /// Called by `Init()`.
   bool ConnectDefaultDisplay();
 
 public:

@@ -2,6 +2,7 @@
 #include "../include/enums.hpp"
 #include "../include/types.hpp"
 #include "../include/lilSoftRend.hpp"
+#include "types/colour.hpp"
 #include <map>
 #include <print>
 #include <stdexcept>
@@ -29,7 +30,7 @@ int main()
   // r.CreateWindow(r.display, &DefaultRootWindow(r.display),
   //                BaseColour::Black, BaseColour::Red, "Hey", "Woo");
 
-  r.CreateWindow(r.display, r.GetWindowByName("Test"),
+  r.CreateWindow(r.display, DefaultRootWindow(r.display),
                  BaseColour::Black, BaseColour::Red, "Hey", "Woo");
 
   // Select MapNotify events
@@ -49,10 +50,10 @@ int main()
 
   // Set colours
   // TODO: XSetForeground() wrapper
-  XSetForeground(r.display, r.gcs[r._contextIDs.at("Test")],
-                 NamedColour.at(ColourToString.at(BaseColour::White)));
-  XSetForeground(r.display, r.gcs[r._contextIDs.at("Hey")],
-                 NamedColour.at(ColourToString.at(BaseColour::White)));
+  XSetForeground(r.display, r.gcs[0],
+                 NamedColour.at(LSR_WHITE));
+  XSetForeground(r.display, r.gcs[1],
+                 0xfff);
 
   // Wait for the MapNotify event
   for(;;) {
@@ -66,7 +67,7 @@ int main()
   // XDrawLine(r.display, win, gc, 10, 60, 180, 20);
   // XDrawLine(r.display, win2, r.contexts[0], 10, 60, 180, 20);
   XDrawLine(r.display, r.GetWindowByName("Test"),
-            r.gcs[r._contextIDs.at("Test")], 10, 60, 180, 20);
+            r.gcs[0], 10, 60, 180, 20);
 
   // Send the "DrawLine" request to the server
   XFlush(r.display);

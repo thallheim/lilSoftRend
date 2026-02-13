@@ -68,19 +68,19 @@ void Renderer::CreateWindow(Display *disp, Window parent, int px, int py,
     // TODO: error handling
   }
 
-  Window w = XCreateSimpleWindow(disp, *parent, px, py, width, height,
+  Window w = XCreateSimpleWindow(disp, parent, px, py, width, height,
                                  border,
                                  0x0, // border colour
                                  background);
 
   if (title) XStoreName(disp, w, title); // set title if provided
-  print(stderr, ":: DBG: WinInfo vec & Window vec sizes:  {} -  {}\n", windows.size(), win_info.size());
+  // print(stderr, ":: DBG: WinInfo vec & Window vec sizes:  {} -  {}\n", windows.size(), win_info.size());
   win_info.emplace_back(WinInfo(name, title, win_info.size()));
   windows.emplace_back(w);
 
   // TODO: don't throw?
   if (windows.size() != win_info.size()) {
-    print(stderr, "ERROR: {}: WinInfo vec & Window vec size mismatch ({} != {})\n", __FUNCTION__, windows.size(), win_info.size());
+    print(stderr, "ERROR: {}: Size mismatch: WinInfo vec ({}) != Windows vec ({})\n", __FUNCTION__, windows.size(), win_info.size());
     throw std::runtime_error("WinInfo vec & Window vec size mismatch");
   }
 }
