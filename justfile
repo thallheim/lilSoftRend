@@ -39,3 +39,8 @@ alias purge-all := purge-all-artefacts
 @purge-all-artefacts:
     echo "Purge cache & all artefacts..."
     rm -rf ./.cache ./build ./vendor
+
+alias dbg := debug
+[group("Debug"), doc("Run ex01 in gdb (tui)")]
+@debug:
+	gdb ./build/Debug/example01 --tui
