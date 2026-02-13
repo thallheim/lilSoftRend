@@ -29,14 +29,14 @@ int main()
   // Create a window
   r.CreateWindow(r.display, &DefaultRootWindow(r.display),
                  BaseColour::Black, BaseColour::Red, "Test", "_test_");
+
   r.CreateWindow(r.display, &DefaultRootWindow(r.display),
                  BaseColour::Black, BaseColour::Red, "Hey", "Woo");
 
   // Select MapNotify events
   // TODO: XSelectinput() wrapper
   XSelectInput(r.display, r.GetWindowByName("Test"), StructureNotifyMask);
-  // FIXME: out of range
-  XSelectInput(r.display, r.windows.back(), StructureNotifyMask); // ok
+  XSelectInput(r.display, r.GetWindowByName("Hey"), StructureNotifyMask); // ok
   // XSelectInput(r.display, r.GetWindowByName("Hey"), StructureNotifyMask); // crash
 
   // Map window
@@ -60,7 +60,7 @@ int main()
   // TODO: XSetForeground() wrapper
   XSetForeground(r.display, r.gcs[r._contextIDs.at("Test")],
                  NamedColour.at(ColourToString.at(BaseColour::White)));
-  XSetForeground(r.display, r.gcs[r._winname2idx.at("default")],
+  XSetForeground(r.display, r.gcs[r._contextIDs.at("Hey")],
                  NamedColour.at(ColourToString.at(BaseColour::White)));
 
   // Wait for the MapNotify event
@@ -74,7 +74,8 @@ int main()
   // Draw the line
   // XDrawLine(r.display, win, gc, 10, 60, 180, 20);
   // XDrawLine(r.display, win2, r.contexts[0], 10, 60, 180, 20);
-  XDrawLine(r.display, r.GetWindowByName("Test"), r.gcs[0], 10, 60, 180, 20);
+  XDrawLine(r.display, r.GetWindowByName("Test"),
+            r.gcs[r._contextIDs.at("Test")], 10, 60, 180, 20);
 
   // Send the "DrawLine" request to the server
   XFlush(r.display);

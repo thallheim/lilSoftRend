@@ -21,6 +21,8 @@ bool Renderer::Init() {
     return false;
   }
 
+  // FIXME: cause of sz mismatch throw
+  // TODO: necessary? if yes; how to account for it? (removal causes OOR in a umap)
   gcs[0] = screen->default_gc; // add default GC
   _winname2idx.emplace("default", (size_t)gcs[0]);
   win_info.emplace_back(WinInfo("default", "@default@", win_info.size()));
@@ -116,6 +118,7 @@ const char* Renderer::GetError() const {
 
 void Renderer::ClearError() { emsg = NULL; ekind = ErrorKind::NONE; }
 
+// TODO: rewrite to get Win via WinInfo loop
 Window Renderer::GetWindowByName(const char* name) {
   for (auto wi : win_info) {
     if (wi.name == name) return windows.at(_winname2idx.at(name));
