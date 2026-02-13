@@ -21,10 +21,10 @@ bool Renderer::Init() {
     return false;
   }
 
-  contexts[0] = screen->default_gc; // add default GC
-  _winname2idx.emplace("default", (size_t)contexts[0]);
+  gcs[0] = screen->default_gc; // add default GC
+  _winname2idx.emplace("default", (size_t)gcs[0]);
   win_info.emplace_back(WinInfo("default", "@default@", win_info.size()));
-  ctx_count++;
+  gc_count++;
 
   return true;
 }
@@ -66,8 +66,6 @@ void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
     // TODO: error handling
   }
 
-
-
   Window w = XCreateSimpleWindow(disp, *parent, px, py, width, height,
                                  border,
                                  0x0, // border colour
@@ -76,12 +74,13 @@ void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
   if (title) XStoreName(disp, w, title); // set title if provided
 
   win_info.emplace_back(WinInfo(name, title, win_info.size()));
-  _winname2idx.emplace(name, _winname2idx.size());
+  // _winname2idx.emplace(name, _winname2idx.size());
   windows.emplace_back(w);
   // TODO: don't throw?
-  if (_winname2idx.size() != win_info.size()) {
-    print(stderr, "ERROR: {}: WinInfo vec & Window idx map size mismatch ({} != {})\n", __FUNCTION__, _winname2idx.size(), win_info.size());
-    throw std::runtime_error("WinInfo vec & Window idx map size mismatch");
+  // TODO: use WinInfo instead
+  if (windows.size() != win_info.size()) {
+    print(stderr, "ERROR: {}: WinInfo vec & Window vec size mismatch ({} != {})\n", __FUNCTION__, windows.size(), win_info.size());
+    throw std::runtime_error("WinInfo vec & Window vec size mismatch");
   }
 }
 
@@ -106,7 +105,7 @@ void Renderer::CreateWindow(Display *disp, Window *parent, BaseColour bgcolour,
 void Renderer::NewGC(const char *name, Drawable drw) {
   size_t i = _contextIDs.size();
   GC gc = XCreateGC(display, drw, 0, NULL);
-  contexts[i] = gc;
+  gcs[i] = gc;
   _contextIDs.emplace(name, i);
 }
 

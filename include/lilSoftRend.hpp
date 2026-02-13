@@ -46,8 +46,8 @@ struct Renderer {
   Screen               *screen   = NULL;
   vector<WinInfo>      win_info;
   vector<Window>       windows;
-  GC                   contexts[LSR_MAX_CONTEXTS] {0};
-  size_t               ctx_count = 0;
+  GC                   gcs[LSR_MAX_CONTEXTS] {0};
+  size_t               gc_count = 0;
   unordered_map<string, size_t> _winname2idx; // TODO: REMOVE - use WinInfo
 
 private:

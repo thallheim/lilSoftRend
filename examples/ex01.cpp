@@ -40,8 +40,8 @@ int main()
 
   // Map window
   XMapWindow(r.display, win);
-  XMapWindow(r.display, r.windows.back()); // ok
-  // XMapWindow(r.display, r.windows.at(r._winname2idx.at("Hey"))); // crash
+  // XMapWindow(r.display, r.windows.back()); // ok
+  XMapWindow(r.display, r.GetWindowByName("Hey")); // ?
 
 
   // Create graphics ctx
@@ -50,14 +50,15 @@ int main()
   // GC gc2 = XCreateGC(r.display, win2, 0, NULL);
 
   // r.NewGC("test", r.GetWindowByName("Hey")); // crash
-  r.NewGC("test", r.windows.back()); // segfault
+  // r.NewGC("test", r.windows.back()); // segfault
+  r.NewGC("test", r.GetWindowByName("Hey")); // ?
 
 
   // Tell the GC we draw using the white color
   // TODO: XSetForeground() wrapper
   XSetForeground(r.display, gc,
                  NamedColour.at(ColourToString.at(BaseColour::White)));
-  XSetForeground(r.display, r.contexts[r._winname2idx.at("default")],
+  XSetForeground(r.display, r.gcs[r._winname2idx.at("default")],
                  NamedColour.at(ColourToString.at(BaseColour::White)));
 
   // Wait for the MapNotify event
@@ -71,7 +72,7 @@ int main()
   // Draw the line
   // XDrawLine(r.display, win, gc, 10, 60, 180, 20);
   // XDrawLine(r.display, win2, r.contexts[0], 10, 60, 180, 20);
-  XDrawLine(r.display, win, r.contexts[0], 10, 60, 180, 20);
+  XDrawLine(r.display, win, r.gcs[0], 10, 60, 180, 20);
 
   // Send the "DrawLine" request to the server
   XFlush(r.display);
