@@ -22,41 +22,43 @@ int main()
 {
   lsr::Renderer r; // Init renderer
 
-  Window win = XCreateSimpleWindow(
-      r.display, DefaultRootWindow(r.display), 0, 0, W_WIDTH, W_HEIGHT, 0,
-      0x0, // border colour & width hardcoded for now
-      NamedColour.at(ColourToString.at(BaseColour::Black)));
+  // Window win = XCreateSimpleWindow(
+  //     r.display, DefaultRootWindow(r.display), 0, 0, W_WIDTH, W_HEIGHT, 0,
+  //     0x0, NamedColour.at(ColourToString.at(BaseColour::Black)));
 
   // Create a window
+  r.CreateWindow(r.display, &DefaultRootWindow(r.display),
+                 BaseColour::Black, BaseColour::Red, "Test", "_test_");
   r.CreateWindow(r.display, &DefaultRootWindow(r.display),
                  BaseColour::Black, BaseColour::Red, "Hey", "Woo");
 
   // Select MapNotify events
   // TODO: XSelectinput() wrapper
-  XSelectInput(r.display, win, StructureNotifyMask);
+  XSelectInput(r.display, r.GetWindowByName("Test"), StructureNotifyMask);
   // FIXME: out of range
   XSelectInput(r.display, r.windows.back(), StructureNotifyMask); // ok
   // XSelectInput(r.display, r.GetWindowByName("Hey"), StructureNotifyMask); // crash
 
   // Map window
-  XMapWindow(r.display, win);
+  XMapWindow(r.display, r.GetWindowByName("Test"));
   // XMapWindow(r.display, r.windows.back()); // ok
   XMapWindow(r.display, r.GetWindowByName("Hey")); // ?
 
 
   // Create graphics ctx
   // TODO: XCreateGC() wrapper
-  GC gc = XCreateGC(r.display, win, 0, NULL);
+  // GC gc = XCreateGC(r.display, r.GetWindowByName("Test"), 0, NULL);
+  r.NewGC("Test", r.GetWindowByName("Test"));
   // GC gc2 = XCreateGC(r.display, win2, 0, NULL);
 
   // r.NewGC("test", r.GetWindowByName("Hey")); // crash
   // r.NewGC("test", r.windows.back()); // segfault
-  r.NewGC("test", r.GetWindowByName("Hey")); // ?
+  r.NewGC("hey", r.GetWindowByName("Hey")); // ?
 
 
   // Tell the GC we draw using the white color
   // TODO: XSetForeground() wrapper
-  XSetForeground(r.display, gc,
+  XSetForeground(r.display, r.gcs[r._contextIDs.at("Test")],
                  NamedColour.at(ColourToString.at(BaseColour::White)));
   XSetForeground(r.display, r.gcs[r._winname2idx.at("default")],
                  NamedColour.at(ColourToString.at(BaseColour::White)));
@@ -72,7 +74,7 @@ int main()
   // Draw the line
   // XDrawLine(r.display, win, gc, 10, 60, 180, 20);
   // XDrawLine(r.display, win2, r.contexts[0], 10, 60, 180, 20);
-  XDrawLine(r.display, win, r.gcs[0], 10, 60, 180, 20);
+  XDrawLine(r.display, r.GetWindowByName("Test"), r.gcs[0], 10, 60, 180, 20);
 
   // Send the "DrawLine" request to the server
   XFlush(r.display);

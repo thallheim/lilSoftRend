@@ -48,11 +48,11 @@ struct Renderer {
   vector<Window>       windows;
   GC                   gcs[LSR_MAX_CONTEXTS] {0};
   size_t               gc_count = 0;
+  map<string, size_t>  _contextIDs; // <GC name, idx>
   unordered_map<string, size_t> _winname2idx; // TODO: REMOVE - use WinInfo
 
 private:
   size_t               _errors_count = 0;
-  map<string, size_t>  _contextIDs; // <GC name, idx>
 
   /** Connect to default X11 server/Display.
    * Called by Init().
@@ -97,6 +97,7 @@ public:
 
   Window  GetWindow(int w);
   Window  GetWindowByName(const char* name);
+  // GC      GetGCByName(const char* name);
 
   /** @brief Ptr to default Screen of Display `dsp`.
    * Returns NULL on failure.

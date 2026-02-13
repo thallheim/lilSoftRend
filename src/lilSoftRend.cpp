@@ -124,6 +124,14 @@ Window Renderer::GetWindowByName(const char* name) {
   return 0;
 }
 
+// GC Renderer::GetGCByName(const char *name) {
+//   if ()
+//   int i;
+//   while (i = 0; i < LSR_MAX_CONTEXTS; ++i) {
+//     if (gcs[i])
+//   }
+// }
+
 Screen* Renderer::GetDefaultScreen(Display* dsp) {
   return XDefaultScreenOfDisplay(dsp);
 }
