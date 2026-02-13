@@ -22,10 +22,6 @@ int main()
 {
   lsr::Renderer r; // Init renderer
 
-  // Window win = XCreateSimpleWindow(
-  //     r.display, DefaultRootWindow(r.display), 0, 0, W_WIDTH, W_HEIGHT, 0,
-  //     0x0, NamedColour.at(ColourToString.at(BaseColour::Black)));
-
   // Create a window
   r.CreateWindow(r.display, &DefaultRootWindow(r.display),
                  BaseColour::Black, BaseColour::Red, "Test", "_test_");
@@ -37,26 +33,18 @@ int main()
   // TODO: XSelectinput() wrapper
   XSelectInput(r.display, r.GetWindowByName("Test"), StructureNotifyMask);
   XSelectInput(r.display, r.GetWindowByName("Hey"), StructureNotifyMask); // ok
-  // XSelectInput(r.display, r.GetWindowByName("Hey"), StructureNotifyMask); // crash
 
   // Map window
   XMapWindow(r.display, r.GetWindowByName("Test"));
-  // XMapWindow(r.display, r.windows.back()); // ok
   XMapWindow(r.display, r.GetWindowByName("Hey")); // ?
 
 
   // Create graphics ctx
   // TODO: XCreateGC() wrapper
-  // GC gc = XCreateGC(r.display, r.GetWindowByName("Test"), 0, NULL);
   r.NewGC("Test", r.GetWindowByName("Test"));
-  // GC gc2 = XCreateGC(r.display, win2, 0, NULL);
-
-  // r.NewGC("test", r.GetWindowByName("Hey")); // crash
-  // r.NewGC("test", r.windows.back()); // segfault
   r.NewGC("hey", r.GetWindowByName("Hey")); // ?
 
-
-  // Tell the GC we draw using the white color
+  // Set colours
   // TODO: XSetForeground() wrapper
   XSetForeground(r.display, r.gcs[r._contextIDs.at("Test")],
                  NamedColour.at(ColourToString.at(BaseColour::White)));
