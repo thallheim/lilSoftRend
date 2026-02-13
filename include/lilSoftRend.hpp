@@ -29,11 +29,11 @@ namespace lsr {
 struct WinInfo {
   string name;
   string title; // = NULL;
-  size_t v_idx; // Window's index in `windows` vector
+  size_t widx;  // Idx into Renderer's `windows` vec
   // Window       _data = NULL;
 
   WinInfo(const char* name, const char *title, size_t v_idx)
-    : name(string(name)), title(string(title)), v_idx(v_idx) {}
+    : name(string(name)), title(string(title)), widx(v_idx) {}
 
 };
 
@@ -64,7 +64,7 @@ public:
 
   ~Renderer() {
     for (WinInfo wi : win_info) {
-      XDestroyWindow(display, windows.at(wi.v_idx));
+      XDestroyWindow(display, windows.at(wi.widx));
     }
 
   }
