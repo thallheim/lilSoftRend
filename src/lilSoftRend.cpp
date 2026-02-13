@@ -24,8 +24,8 @@ bool Renderer::Init() {
   // FIXME: cause of sz mismatch throw
   // TODO: necessary? if yes; how to account for it? (removal causes OOR in a umap)
   gcs[0] = screen->default_gc; // add default GC
-  _winname2idx.emplace("default", (size_t)gcs[0]);
-  win_info.emplace_back(WinInfo("default", "@default@", win_info.size()));
+  // _winname2idx.emplace("default", (size_t)gcs[0]);
+  // win_info.emplace_back(WinInfo("default", "@default@", win_info.size()));
   gc_count++;
 
   return true;
@@ -48,7 +48,7 @@ Screen* Renderer::GetScreen(int scr) {
 }
 
 Window Renderer::GetWindow(int w) {
-  if (win_info.empty() || w > win_info.size() - 1) {
+  if (win_info.empty() || w > win_info.size()) {
     const auto emsg = string("Bad Window ID: {}", w);
     print(stderr, "ERROR: {}: Window ID out of range ({}).\n", __FUNCTION__, w);
     std::out_of_range(emsg.c_str());
@@ -74,10 +74,10 @@ void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
                                  background);
 
   if (title) XStoreName(disp, w, title); // set title if provided
-
+  print(stderr, ":: DBG: WinInfo vec & Window vec sizes:  {} -  {}\n", windows.size(), win_info.size());
   win_info.emplace_back(WinInfo(name, title, win_info.size()));
-  // _winname2idx.emplace(name, _winname2idx.size());
   windows.emplace_back(w);
+  // _winname2idx.emplace(name, _winname2idx.size());
   // TODO: don't throw?
   // TODO: use WinInfo instead
   if (windows.size() != win_info.size()) {
@@ -121,7 +121,7 @@ void Renderer::ClearError() { emsg = NULL; ekind = ErrorKind::NONE; }
 // TODO: rewrite to get Win via WinInfo loop
 Window Renderer::GetWindowByName(const char* name) {
   for (auto wi : win_info) {
-    if (wi.name == name) return windows.at(_winname2idx.at(name));
+    if (wi.name == name) return windows.at(wi.widx);
   }
   print(stderr, "ERROR: {}: No alive window named '{}'.\n", name, __FUNCTION__);
   return 0;

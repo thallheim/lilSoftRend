@@ -32,17 +32,17 @@ int main()
   // Select MapNotify events
   // TODO: XSelectinput() wrapper
   XSelectInput(r.display, r.GetWindowByName("Test"), StructureNotifyMask);
-  XSelectInput(r.display, r.GetWindowByName("Hey"), StructureNotifyMask); // ok
+  XSelectInput(r.display, r.GetWindowByName("Hey"), StructureNotifyMask);
 
   // Map window
   XMapWindow(r.display, r.GetWindowByName("Test"));
-  XMapWindow(r.display, r.GetWindowByName("Hey")); // ?
+  XMapWindow(r.display, r.GetWindowByName("Hey"));
 
 
   // Create graphics ctx
   // TODO: XCreateGC() wrapper
   r.NewGC("Test", r.GetWindowByName("Test"));
-  r.NewGC("hey", r.GetWindowByName("Hey")); // ?
+  r.NewGC("hey", r.GetWindowByName("Hey"));
 
   // Set colours
   // TODO: XSetForeground() wrapper
