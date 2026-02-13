@@ -69,15 +69,15 @@ public:
 
   }
 
-  void CreateWindow(Display *disp, Window *parent, int px, int py, uint width,
+  void CreateWindow(Display *disp, Window parent, int px, int py, uint width,
                     uint height, uint border_width, ulong border,
                     ulong background, const char* name,
                     const char *title = NULL);
 
-  void CreateWindow(Display *disp, Window *parent, const char* name,
+  void CreateWindow(Display *disp, Window parent, const char* name,
                     const char *title = NULL);
 
-  void CreateWindow(Display *disp, Window *parent, BaseColour bgcolour,
+  void CreateWindow(Display *disp, Window parento, BaseColour bgcolour,
                     BaseColour fgcolour, const char* name,
                     const char *title = NULL);
 

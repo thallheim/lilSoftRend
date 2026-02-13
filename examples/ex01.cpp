@@ -23,10 +23,13 @@ int main()
   lsr::Renderer r; // Init renderer
 
   // Create a window
-  r.CreateWindow(r.display, &DefaultRootWindow(r.display),
+  r.CreateWindow(r.display, DefaultRootWindow(r.display),
                  BaseColour::Black, BaseColour::Red, "Test", "_test_");
 
-  r.CreateWindow(r.display, &DefaultRootWindow(r.display),
+  // r.CreateWindow(r.display, &DefaultRootWindow(r.display),
+  //                BaseColour::Black, BaseColour::Red, "Hey", "Woo");
+
+  r.CreateWindow(r.display, r.GetWindowByName("Test"),
                  BaseColour::Black, BaseColour::Red, "Hey", "Woo");
 
   // Select MapNotify events

@@ -57,7 +57,7 @@ Window Renderer::GetWindow(int w) {
   return windows.at(w);
 }
 
-void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
+void Renderer::CreateWindow(Display *disp, Window parent, int px, int py,
                               uint width, uint height, uint border_width,
                             ulong border, ulong background, const char* name,
                             const char *title) {
@@ -85,14 +85,14 @@ void Renderer::CreateWindow(Display *disp, Window *parent, int px, int py,
   }
 }
 
-void Renderer::CreateWindow(Display *disp, Window *parent, const char* name,
+void Renderer::CreateWindow(Display *disp, Window parent, const char* name,
                             const char *title) {
   CreateWindow(disp, parent, 0, 0, 800, 600, 0,
                0x0, // border colour
                GetColour(BaseColour::Black), name, title);
 }
 
-void Renderer::CreateWindow(Display *disp, Window *parent, BaseColour bgcolour,
+void Renderer::CreateWindow(Display *disp, Window parent, BaseColour bgcolour,
                             BaseColour fgcolour, const char* name,
                             const char *title) {
   // TODO: un-hardcode dimensions: grab defaults from somewhere
