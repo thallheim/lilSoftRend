@@ -27,26 +27,18 @@ int main()
   r.NewWindow(r.display, DefaultRootWindow(r.display),
                  BaseColour::Black, BaseColour::Red, "Test", "_test_");
 
-  r.NewWindow(r.display, DefaultRootWindow(r.display),
-                 BaseColour::Black, BaseColour::Red, "Hey", "Woo");
-
   // Select MapNotify events
   // TODO: XSelectinput() wrapper
   XSelectInput(r.display, r.GetWindowByName("Test"), StructureNotifyMask);
-  XSelectInput(r.display, r.GetWindowByName("Hey"), StructureNotifyMask);
 
   // Map window
   XMapWindow(r.display, r.GetWindowByName("Test"));
-  XMapWindow(r.display, r.GetWindowByName("Hey"));
-
 
   // Create graphics ctx
   r.NewGC("Test", r.GetWindowByName("Test"));
-  r.NewGC("hey", r.GetWindowByName("Hey"));
 
   // Set colours
   XSetForeground(r.display, r.GetGCByName("Test"), NamedColour.at(LSR_WHITE));
-  XSetForeground(r.display, r.GetGCByName("hey"), NamedColour.at(LSR_WHITE));
 
   // Wait for the MapNotify event
   for(;;) {
@@ -59,9 +51,6 @@ int main()
   // Draw
   XDrawLine(r.display, r.GetWindowByName("Test"),
             r.GetGCByName("Test"), 10, 10, 180, 40);
-
-  XDrawLine(r.display, r.GetWindowByName("Hey"),
-            r.GetGCByName("hey"), 10, 40, 180, 10);
 
   // Send the "DrawLine" request to the server
   XFlush(r.display);

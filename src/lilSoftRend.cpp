@@ -48,7 +48,7 @@ Window Renderer::GetWindow(int w) {
   if (win_info.empty() || w > win_info.size()) {
     const auto emsg = string("Bad Window ID: {}", w);
     print(stderr, "ERROR: {}: Window ID out of range ({}).\n", __FUNCTION__, w);
-    std::out_of_range(emsg.c_str());
+    throw std::out_of_range(emsg.c_str());
   }
 
   return windows.at(w);
