@@ -21,11 +21,8 @@ bool Renderer::Init() {
     return false;
   }
 
-  // FIXME: cause of sz mismatch throw
-  // TODO: necessary? if yes; how to account for it? (removal causes OOR in a umap)
+  // TODO: necessary? if yes; account for it
   gcs[0] = screen->default_gc; // add default GC
-  // _winname2idx.emplace("default", (size_t)gcs[0]);
-  // win_info.emplace_back(WinInfo("default", "@default@", win_info.size()));
   gc_count++;
 
   return true;
@@ -57,7 +54,7 @@ Window Renderer::GetWindow(int w) {
   return windows.at(w);
 }
 
-void Renderer::CreateWindow(Display *disp, Window parent, int px, int py,
+void Renderer::NewWindow(Display *disp, Window parent, int px, int py,
                               uint width, uint height, uint border_width,
                             ulong border, ulong background, const char* name,
                             const char *title) {
@@ -74,31 +71,32 @@ void Renderer::CreateWindow(Display *disp, Window parent, int px, int py,
                                  background);
 
   if (title) XStoreName(disp, w, title); // set title if provided
-  // print(stderr, ":: DBG: WinInfo vec & Window vec sizes:  {} -  {}\n", windows.size(), win_info.size());
+
   win_info.emplace_back(WinInfo(name, title, win_info.size()));
   windows.emplace_back(w);
 
-  // TODO: don't throw?
   if (windows.size() != win_info.size()) {
-    print(stderr, "ERROR: {}: Size mismatch: WinInfo vec ({}) != Windows vec ({})\n", __FUNCTION__, windows.size(), win_info.size());
+    print(stderr,
+          "FATAL: {}(): Vector size mismatch: WinInfo ({}) != Windows ({})\n",
+          __FUNCTION__, windows.size(), win_info.size());
     throw std::runtime_error("WinInfo vec & Window vec size mismatch");
   }
 }
 
-void Renderer::CreateWindow(Display *disp, Window parent, const char* name,
+void Renderer::NewWindow(Display *disp, Window parent, const char* name,
                             const char *title) {
-  CreateWindow(disp, parent, 0, 0, 800, 600, 0,
+  NewWindow(disp, parent, 0, 0, 800, 600, 0,
                0x0, // border colour
                GetColour(BaseColour::Black), name, title);
 }
 
-void Renderer::CreateWindow(Display *disp, Window parent, BaseColour bgcolour,
+void Renderer::NewWindow(Display *disp, Window parent, BaseColour bgcolour,
                             BaseColour fgcolour, const char* name,
                             const char *title) {
   // TODO: un-hardcode dimensions: grab defaults from somewhere
   // TODO: if not root, maybe grab pX & pY from parent window?
   // TODO: un-hardcode border width & colour
-  CreateWindow(disp, parent, 0, 0, 800, 600, 0,
+  NewWindow(disp, parent, 0, 0, 800, 600, 0,
                0x0, // border colour
                GetColour(bgcolour), name, title);
 }
@@ -108,6 +106,7 @@ void Renderer::NewGC(const char *name, Drawable drw) {
   GC gc = XCreateGC(display, drw, 0, NULL);
   gcs[i] = gc;
   _contextIDs.emplace(name, i);
+  gc_count++;
 }
 
 const char* Renderer::GetError() const {
@@ -126,13 +125,15 @@ Window Renderer::GetWindowByName(const char* name) {
   return 0;
 }
 
-// GC Renderer::GetGCByName(const char *name) {
-//   if ()
-//   int i;
-//   while (i = 0; i < LSR_MAX_CONTEXTS; ++i) {
-//     if (gcs[i])
-//   }
-// }
+GC Renderer::GetGCByName(const char *name) {
+  if (!_contextIDs.contains(name)) {
+    print(stderr, "ERROR: {}: GC '{}' doesn't exist.\n", name, __FUNCTION__);
+    return NULL;
+  }
+
+  size_t i = _contextIDs.at(name);
+  return gcs[i];
+}
 
 Screen* Renderer::GetDefaultScreen(Display* dsp) {
   return XDefaultScreenOfDisplay(dsp);

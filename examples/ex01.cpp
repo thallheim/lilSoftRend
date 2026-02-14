@@ -24,13 +24,10 @@ int main()
   lsr::Renderer r; // Init renderer
 
   // Create a window
-  r.CreateWindow(r.display, DefaultRootWindow(r.display),
+  r.NewWindow(r.display, DefaultRootWindow(r.display),
                  BaseColour::Black, BaseColour::Red, "Test", "_test_");
 
-  // r.CreateWindow(r.display, &DefaultRootWindow(r.display),
-  //                BaseColour::Black, BaseColour::Red, "Hey", "Woo");
-
-  r.CreateWindow(r.display, DefaultRootWindow(r.display),
+  r.NewWindow(r.display, DefaultRootWindow(r.display),
                  BaseColour::Black, BaseColour::Red, "Hey", "Woo");
 
   // Select MapNotify events
@@ -44,16 +41,12 @@ int main()
 
 
   // Create graphics ctx
-  // TODO: XCreateGC() wrapper
   r.NewGC("Test", r.GetWindowByName("Test"));
   r.NewGC("hey", r.GetWindowByName("Hey"));
 
   // Set colours
-  // TODO: XSetForeground() wrapper
-  XSetForeground(r.display, r.gcs[0],
-                 NamedColour.at(LSR_WHITE));
-  XSetForeground(r.display, r.gcs[1],
-                 0xfff);
+  XSetForeground(r.display, r.GetGCByName("Test"), NamedColour.at(LSR_WHITE));
+  XSetForeground(r.display, r.GetGCByName("hey"), NamedColour.at(LSR_WHITE));
 
   // Wait for the MapNotify event
   for(;;) {
@@ -63,11 +56,12 @@ int main()
       break;
   }
 
-  // Draw the line
-  // XDrawLine(r.display, win, gc, 10, 60, 180, 20);
-  // XDrawLine(r.display, win2, r.contexts[0], 10, 60, 180, 20);
+  // Draw
   XDrawLine(r.display, r.GetWindowByName("Test"),
-            r.gcs[0], 10, 60, 180, 20);
+            r.GetGCByName("Test"), 10, 10, 180, 40);
+
+  XDrawLine(r.display, r.GetWindowByName("Hey"),
+            r.GetGCByName("hey"), 10, 40, 180, 10);
 
   // Send the "DrawLine" request to the server
   XFlush(r.display);

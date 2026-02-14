@@ -3,7 +3,6 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysymdef.h>
-#include <iterator>
 #include <map>
 #include <unordered_map>
 #include <vector>
@@ -26,16 +25,16 @@ static const uint LSR_MAX_CONTEXTS {512};
 
 namespace lsr {
 
-struct WinInfo {
-  string name;
-  string title; // = NULL;
-  size_t widx;  // Idx into Renderer's `windows` vec
-  // Window       _data = NULL;
+  // TODO: move to renderer types subheader
+  struct WinInfo {
+    string name;
+    string title;
+    size_t widx;  // Idx into Renderer's `windows` vec
 
-  WinInfo(const char* name, const char *title, size_t v_idx)
-    : name(string(name)), title(string(title)), widx(v_idx) {}
+    WinInfo(const char* name, const char *title, size_t v_idx)
+      : name(string(name)), title(string(title)), widx(v_idx) {}
 
-};
+  }; // WinInfo
 
 
 struct Renderer {
@@ -49,7 +48,6 @@ struct Renderer {
   GC                   gcs[LSR_MAX_CONTEXTS] {0};
   size_t               gc_count = 0;
   map<string, size_t>  _contextIDs; // <GC name, idx>
-  unordered_map<string, size_t> _winname2idx; // TODO: REMOVE - use WinInfo
 
 private:
   size_t               _errors_count = 0;
@@ -68,15 +66,15 @@ public:
 
   }
 
-  void CreateWindow(Display *disp, Window parent, int px, int py, uint width,
+  void NewWindow(Display *disp, Window parent, int px, int py, uint width,
                     uint height, uint border_width, ulong border,
                     ulong background, const char* name,
                     const char *title = NULL);
 
-  void CreateWindow(Display *disp, Window parent, const char* name,
+  void NewWindow(Display *disp, Window parent, const char* name,
                     const char *title = NULL);
 
-  void CreateWindow(Display *disp, Window parento, BaseColour bgcolour,
+  void NewWindow(Display *disp, Window parento, BaseColour bgcolour,
                     BaseColour fgcolour, const char* name,
                     const char *title = NULL);
 
@@ -96,7 +94,8 @@ public:
 
   Window  GetWindow(int w);
   Window  GetWindowByName(const char* name);
-  // GC      GetGCByName(const char* name);
+
+  GC      GetGCByName(const char* name);
 
   /** @brief Ptr to default Screen of Display `dsp`.
    * Returns NULL on failure.
