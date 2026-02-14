@@ -116,7 +116,6 @@ const char* Renderer::GetError() const {
 
 void Renderer::ClearError() { emsg = NULL; ekind = ErrorKind::NONE; }
 
-// TODO: rewrite to get Win via WinInfo loop
 Window Renderer::GetWindowByName(const char* name) {
   for (auto wi : win_info) {
     if (wi.name == name) return windows.at(wi.widx);
@@ -130,7 +129,6 @@ GC Renderer::GetGCByName(const char *name) {
     print(stderr, "ERROR: {}: GC '{}' doesn't exist.\n", name, __FUNCTION__);
     return NULL;
   }
-
   size_t i = _contextIDs.at(name);
   return gcs[i];
 }

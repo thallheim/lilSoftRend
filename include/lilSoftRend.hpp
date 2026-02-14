@@ -60,10 +60,11 @@ public:
   Renderer() { Init(); }
 
   ~Renderer() {
-    for (WinInfo wi : win_info) {
+    for (WinInfo wi : win_info)
       XDestroyWindow(display, windows.at(wi.widx));
-    }
 
+    for (int i = 0; i <= gc_count; ++i)
+      XFreeGC(display, gcs[i]);
   }
 
   void NewWindow(Display *disp, Window parent, int px, int py, uint width,
