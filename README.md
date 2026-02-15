@@ -13,6 +13,7 @@ Eine kleine Software Renderer exercise.
 ### Wrappers
 * [x] XCreateGC() wrapper
 * [ ] XMapWindow() wrapper
+  * [ ] XMapSubwindows() wrapper
 * [ ] XSetForeground() wrapper
 * [ ] XSetBackground() wrapper
 * [ ] XSelectinput() wrapper
