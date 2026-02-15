@@ -8,10 +8,14 @@ Eine kleine Software Renderer exercise.
 * [ ] Renderer error handlers
 * [ ] Renderer gc handling
   * [x] Renderer GC storage
-* [x] XCreateGC() wrapper
-* [ ] XSetForeground() wrapper
-* [ ] XMapWindow() wrapper
 * [ ] Event loopery
+
+### Wrappers
+* [x] XCreateGC() wrapper
+* [ ] XMapWindow() wrapper
+* [ ] XSetForeground() wrapper
+* [ ] XSetBackground() wrapper
+* [ ] XSelectinput() wrapper
 
 ### CMake
   * [x] Ensure libx11
