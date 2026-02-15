@@ -82,6 +82,8 @@ public:
   void NewGC(const char *name, Drawable drw);
 
   void SetFG(GC gc, BaseColour col);
+  void SetFG(GC gc, ulong colour);
+
 
   const char* GetError() const;
   void        ClearError();

@@ -109,8 +109,13 @@ void Renderer::NewGC(const char *name, Drawable drw) {
   gc_count++;
 }
 
+// FIXME: not working
 void Renderer::SetFG(GC gc, BaseColour col) {
   XSetForeground(display, gc, GetColour(col));
+}
+
+void Renderer::SetFG(GC gc, ulong colour) {
+  XSetForeground(display, gc, colour);
 }
 
 const char* Renderer::GetError() const {
