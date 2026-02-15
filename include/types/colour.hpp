@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cstdint>
 #include <map>
+#include <print>
 #include <stdexcept>
 #include "../enums.hpp"
 
@@ -15,6 +16,7 @@ using uint  = unsigned int;
 using std::clamp;
 using std::string;
 using std::string_view;
+using std::print;
 
 
 struct Colour {
@@ -127,10 +129,12 @@ namespace lsr::colour {
     if (NamedColour.contains(ColourToString.at(colour)))
       return NamedColour.at(ColourToString.at(colour));
     // TODO: report & handle error
+    print(stderr, "ERROR: {}(): No such colour: {}\n",
+          __FUNCTION__, ColourToString.at(colour));
     return 0;
   }
 
-  inline const uint16_t GetColourS(string& colour) {
+  inline const uint16_t GetColourS(const char* colour) {
     if (NamedColour.contains(colour))
       return NamedColour.at(colour);
     // TODO: report & handle error
