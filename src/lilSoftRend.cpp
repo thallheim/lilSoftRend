@@ -109,6 +109,10 @@ void Renderer::NewGC(const char *name, Drawable drw) {
   gc_count++;
 }
 
+void Renderer::SetFG(GC gc, BaseColour col) {
+  XSetForeground(display, gc, GetColour(col));
+}
+
 const char* Renderer::GetError() const {
   if (!emsg) return NULL;
   return emsg;

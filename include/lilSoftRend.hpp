@@ -79,7 +79,9 @@ public:
                     BaseColour fgcolour, const char* name,
                     const char *title = NULL);
 
-  void NewGC(const char* name, Drawable drw);
+  void NewGC(const char *name, Drawable drw);
+
+  void SetFG(GC gc, BaseColour col);
 
   const char* GetError() const;
   void        ClearError();

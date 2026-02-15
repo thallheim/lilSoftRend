@@ -39,6 +39,7 @@ int main()
 
   // Set colours
   XSetForeground(r.display, r.GetGCByName("Test"), NamedColour.at(LSR_WHITE));
+  // r.SetFG(r.GetGCByName("Test"), BaseColour::Red); // FIXME: nope
 
   // Wait for the MapNotify event
   for(;;) {
