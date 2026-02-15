@@ -8,9 +8,11 @@ Eine kleine Software Renderer exercise.
 * [ ] Renderer error handlers
 * [ ] Renderer gc handling
   * [x] Renderer GC storage
-* [ ] XCreateGC() wrapper
+* [x] XCreateGC() wrapper
 * [ ] XSetForeground() wrapper
+* [ ] XMapWindow() wrapper
 * [ ] Event loopery
+
 ### CMake
   * [x] Ensure libx11
   * [ ] Check for wayland?
